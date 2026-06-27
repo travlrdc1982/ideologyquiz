@@ -9,6 +9,8 @@
 <link href="./index_files/css2" rel="stylesheet">
 <style>
   :root{
+    --font-primary:"Fraunces",Georgia,serif;
+    --font-mono:"JetBrains Mono","Spline Sans Mono","SFMono-Regular",monospace;
     --bg:transparent;      /* page */
     --plot:rgba(250,246,235,.74);        /* chart inset */
     --grid:rgba(4,31,62,.08);
@@ -29,19 +31,19 @@
   body{
     background:transparent;
     color:var(--text);
-    font-family:"Inter",system-ui,sans-serif;
+    font-family:var(--font-primary);
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
   .wrap{max-width:1080px;margin:0 auto;padding:clamp(14px,3vw,34px)}
-  .mono{font-family:"Spline Sans Mono","SFMono-Regular",monospace;letter-spacing:.04em}
+  .mono{font-family:var(--font-mono);letter-spacing:.04em}
   .eyebrow{
-    font-family:"Spline Sans Mono",monospace;font-size:.72rem;letter-spacing:.32em;
+    font-family:var(--font-mono);font-size:.72rem;letter-spacing:.32em;
     text-transform:uppercase;color:var(--gold);margin:0 0 1.2rem;
   }
   h1{
-    font-family:"Fraunces",serif;font-weight:500;font-optical-sizing:auto;
+    font-family:var(--font-primary);font-weight:500;font-optical-sizing:auto;
     font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.02;letter-spacing:-.01em;
     margin:0 0 1.1rem;
   }
@@ -51,7 +53,7 @@
 
   /* ---- shared button ---- */
   .btn{
-    font-family:"Spline Sans Mono",monospace;font-size:.82rem;letter-spacing:.14em;
+    font-family:var(--font-mono);font-size:.82rem;letter-spacing:.14em;
     text-transform:uppercase;cursor:pointer;border:1px solid var(--gold);
     background:transparent;color:var(--gold-bright);padding:.85rem 1.8rem;border-radius:2px;
     transition:background .25s,color .25s,transform .15s;
@@ -59,8 +61,20 @@
   .btn:hover{background:var(--gold);color:#11142a}
   .btn:active{transform:translateY(1px)}
   .btn:focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px}
+  .btn:disabled{opacity:.42;cursor:not-allowed;transform:none}
+  .btn:disabled:hover{background:transparent;color:var(--gold-bright)}
   .btn.ghost{border-color:var(--line);color:var(--muted)}
   .btn.ghost:hover{border-color:var(--muted);background:transparent;color:var(--text)}
+  #startBtn{
+    color:#041f3e;background:var(--gold-bright);border:2px solid #041f3e;
+    box-shadow:0 12px 30px rgba(4,31,62,.18),0 0 0 4px rgba(241,212,134,.32);
+    font-weight:700;
+  }
+  #startBtn:hover{background:#fff3bf;color:#041f3e;transform:translateY(-1px)}
+  #intro{position:relative}
+  #intro .chart-stage{position:relative}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+  .topbar .kicker{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:#95192f;margin:0}
 
   /* ---- panels ---- */
   .panel{display:none}
@@ -72,25 +86,25 @@
   #results .chart-stage{max-width:820px}
   .map-title{
     position:absolute;top:-2.15rem;left:0;z-index:2;
-    font-family:"Spline Sans Mono",monospace;font-size:.82rem;letter-spacing:.14em;
+    font-family:var(--font-mono);font-size:.82rem;letter-spacing:.14em;
     text-transform:uppercase;color:#95192f;pointer-events:none;
   }
   svg.chart{width:100%;height:auto;display:block}
-  .axis-vert .the,.axis-vert .idea{font-family:"Playfair Display",serif;font-style:italic;font-weight:500;fill:#001f3f;text-transform:uppercase}
-  .axis-vert .main{font-family:"Playfair Display",serif;font-weight:600;fill:#001f3f;text-transform:uppercase;letter-spacing:.02em}
-  .axis-horiz{font-family:"Playfair Display",serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;fill:#9e1b32}
-  .axis-small{font-family:"Spline Sans Mono",monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;fill:rgba(4,31,62,.52)}
-  .cardinal-label{font-family:"Playfair Display",Georgia,serif;font-size:19px;font-weight:600;fill:#080806;paint-order:stroke;stroke:#f6df8b;stroke-width:.75px}
+  .axis-vert .the,.axis-vert .idea{font-family:var(--font-primary);font-style:italic;font-weight:500;fill:#001f3f;text-transform:uppercase}
+  .axis-vert .main{font-family:var(--font-primary);font-weight:600;fill:#001f3f;text-transform:uppercase;letter-spacing:.02em}
+  .axis-horiz{font-family:var(--font-primary);font-weight:600;text-transform:uppercase;letter-spacing:.03em;fill:#9e1b32}
+  .axis-small{font-family:var(--font-mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase;fill:rgba(4,31,62,.52)}
+  .cardinal-label{font-family:var(--font-primary);font-size:19px;font-weight:600;fill:#080806;paint-order:stroke;stroke:#f6df8b;stroke-width:.75px}
   .cardinal-label.small{font-size:17px}
-  .tendency-label{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:400;letter-spacing:.045em;fill:#fffaf0}
-  .cardinal-copy-title{font-family:"Fraunces",serif;font-size:18px;font-weight:600;color:#041f3e;margin:0 0 4px}
-  .cardinal-copy{font-family:Georgia,serif;font-size:11.5px;line-height:1.3;color:#263143;margin:0}
-  .chart-note{font-family:"Spline Sans Mono",monospace;font-size:8px;letter-spacing:.14em;color:#95192f;text-transform:uppercase;margin:0 0 4px}
+  .tendency-label{font-family:var(--font-mono);font-size:12px;font-weight:400;letter-spacing:.045em;fill:#fffaf0}
+  .cardinal-copy-title{font-family:var(--font-primary);font-size:18px;font-weight:600;color:#041f3e;margin:0 0 4px}
+  .cardinal-copy{font-family:var(--font-primary);font-size:11.5px;line-height:1.3;color:#263143;margin:0}
+  .chart-note{font-family:var(--font-mono);font-size:8px;letter-spacing:.14em;color:#95192f;text-transform:uppercase;margin:0 0 4px}
   .result-copy-card{background:rgba(250,246,235,.94);border:1px solid rgba(149,25,47,.22);border-radius:6px;box-shadow:0 8px 22px rgba(4,31,62,.08);padding:14px 16px;box-sizing:border-box}
   .ai-score-card{display:flex;gap:12px;align-items:center;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(4,31,62,.12)}
-  .ai-score-num{font-family:"Fraunces",serif;font-size:32px;font-weight:600;line-height:1;color:#041f3e;min-width:54px}
-  .ai-score-label{font-family:"Spline Sans Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#95192f;margin-bottom:2px}
-  .ai-score-desc{font-family:Georgia,serif;font-size:12px;line-height:1.25;color:#263143}
+  .ai-score-num{font-family:var(--font-primary);font-size:32px;font-weight:600;line-height:1;color:#041f3e;min-width:54px}
+  .ai-score-label{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#95192f;margin-bottom:2px}
+  .ai-score-desc{font-family:var(--font-primary);font-size:12px;line-height:1.25;color:#263143}
   @keyframes plaquePulse{0%,100%{opacity:.95}50%{opacity:.55}}
   @keyframes figureBlink{0%,100%{opacity:1;stroke-opacity:.75}50%{opacity:.35;stroke-opacity:.25}}
   .active-plaque{animation:plaquePulse 1.25s ease-in-out infinite}
@@ -99,7 +113,7 @@
   .av .ring{fill:none;stroke:var(--gold);stroke-opacity:.55;animation:figureBlink 1.8s ease-in-out infinite}
   .av .dot{fill:var(--gold);animation:figureBlink 1.8s ease-in-out infinite}
   .av:hover circle.dot,.av:focus circle.dot{fill:var(--gold-bright)}
-  .av text{font-family:"Spline Sans Mono",monospace;font-size:10px;fill:#33405f;letter-spacing:.02em;opacity:0;transition:opacity .2s;pointer-events:none}
+  .av text{font-family:var(--font-mono);font-size:10px;fill:#33405f;letter-spacing:.02em;opacity:0;transition:opacity .2s;pointer-events:none}
   .av:hover text,.av:focus text{opacity:1}
   .av:hover .ring,.av:hover .dot,.av:focus .ring,.av:focus .dot{animation:none;opacity:1;stroke-opacity:.75}
   .av.core .dot{fill:var(--teal)}
@@ -112,7 +126,7 @@
     border-radius:4px;padding:.65rem .8rem;max-width:320px;font-size:.78rem;color:#263143;
     box-shadow:0 8px 30px rgba(0,0,0,.18);opacity:0;transform:translateY(4px);transition:.15s;z-index:5}
   .tip.show{opacity:1;transform:none}
-  .tip b{font-family:"Fraunces",serif;font-weight:600;display:block;color:var(--navy);font-size:.92rem;margin-bottom:.15rem}
+  .tip b{font-family:var(--font-primary);font-weight:600;display:block;color:var(--navy);font-size:.92rem;margin-bottom:.15rem}
   .map-hotspot{cursor:help}
   .map-hotspot *{pointer-events:all}
 
@@ -128,13 +142,13 @@
   #quiz .agree button:hover{border-color:var(--gold);color:#fff}
   .progress{height:2px;background:var(--line);border-radius:2px;margin:0 0 2.4rem;overflow:hidden}
   .progress span{display:block;height:100%;background:var(--gold);width:0;transition:width .4s ease}
-  .qcount{font-family:"Spline Sans Mono",monospace;font-size:.72rem;letter-spacing:.2em;color:var(--muted);margin-bottom:1rem;text-transform:uppercase}
+  .qcount{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.2em;color:var(--muted);margin-bottom:1rem;text-transform:uppercase}
   .qsect{display:none}
-  .qtext{font-family:"Fraunces",serif;font-size:clamp(1.3rem,3vw,1.9rem);font-weight:400;line-height:1.25;margin:0 0 2rem;max-width:34ch}
+  .qtext{font-family:var(--font-primary);font-size:clamp(1.3rem,3vw,1.9rem);font-weight:400;line-height:1.25;margin:0 0 2rem;max-width:34ch}
 
   /* slider question */
   .poles{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1rem,4vw,3rem);margin-bottom:.6rem;align-items:stretch}
-  .poles div{font-family:"Fraunces",serif;font-size:clamp(1.05rem,2.2vw,1.55rem);line-height:1.22;color:#10213d;border-top:2px solid rgba(149,25,47,.38);padding-top:.9rem}
+  .poles div{font-family:var(--font-primary);font-size:clamp(1.05rem,2.2vw,1.55rem);line-height:1.22;color:#10213d;border-top:2px solid rgba(149,25,47,.38);padding-top:.9rem}
   .poles div:last-child{text-align:right;border-top-color:rgba(4,31,62,.38)}
   input[type=range]{
     -webkit-appearance:none;appearance:none;width:100%;height:4px;background:var(--line);
@@ -147,14 +161,14 @@
   #quiz input[type=range]{height:6px;background:rgba(248,241,220,.56)}
   #quiz input[type=range]::-webkit-slider-thumb{background:var(--gold-bright);border-color:#041f3e;box-shadow:0 0 0 2px rgba(248,241,220,.8),0 0 18px rgba(241,212,134,.55)}
   #quiz input[type=range]::-moz-range-thumb{background:var(--gold-bright);border-color:#041f3e;box-shadow:0 0 0 2px rgba(248,241,220,.8),0 0 18px rgba(241,212,134,.55)}
-  .scaleticks{display:flex;justify-content:center;font-family:"Spline Sans Mono",monospace;font-size:.62rem;color:var(--muted);letter-spacing:.1em}
+  .scaleticks{display:flex;justify-content:center;font-family:var(--font-mono);font-size:.62rem;color:var(--muted);letter-spacing:.1em}
 
   /* agree question */
-  .agree{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.4rem}
+  .agree{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(.22rem,1.6vw,.5rem);margin-bottom:.4rem}
   .agree button{
-    flex:1;min-width:64px;background:transparent;border:1px solid var(--line);color:var(--muted);
-    border-radius:3px;padding:.9rem .4rem;cursor:pointer;font-family:"Spline Sans Mono",monospace;
-    font-size:.82rem;transition:.18s;
+    min-width:0;aspect-ratio:1.08/1;background:transparent;border:1px solid var(--line);color:var(--muted);
+    border-radius:3px;padding:0;cursor:pointer;font-family:var(--font-mono);
+    font-size:clamp(.68rem,2.6vw,.82rem);transition:.18s;
   }
   .agree button:hover{border-color:var(--gold);color:var(--text)}
   .agree button.sel{background:var(--gold);color:#11142a;border-color:var(--gold)}
@@ -165,36 +179,138 @@
 
   /* ---- results ---- */
   .verdict{margin:2.4rem auto 0;max-width:620px}
-  .vkicker{font-family:"Spline Sans Mono",monospace;font-size:.72rem;letter-spacing:.26em;color:var(--gold);text-transform:uppercase}
-  .vtitle{font-family:"Fraunces",serif;font-size:clamp(1.8rem,4.5vw,2.8rem);font-weight:500;margin:.5rem 0 .9rem;line-height:1.1}
+  .vkicker{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.26em;color:var(--gold);text-transform:uppercase}
+  .vtitle{font-family:var(--font-primary);font-size:clamp(1.8rem,4.5vw,2.8rem);font-weight:500;margin:.5rem 0 .9rem;line-height:1.1}
   .vtitle.void{color:#9aa0c0}
   .vtitle.core{color:var(--teal)}
   .vbody{color:#c7cce0;font-size:1.02rem;margin:0 0 1.6rem}
   .vbody b{color:var(--text)}
   .scores{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem 1.6rem;border-top:1px solid var(--line);padding-top:1.4rem;margin-top:1.6rem}
   .score{font-size:.86rem}
-  .score .k{font-family:"Spline Sans Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .score .k{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
   .score .v{color:var(--text);font-weight:500}
   .bar{height:3px;background:var(--line);border-radius:3px;margin-top:.35rem;overflow:hidden}
   .bar span{display:block;height:100%;background:var(--gold)}
-  .lead-card{max-width:620px;margin:1.6rem auto 0;background:rgba(250,246,235,.94);border:1px solid rgba(149,25,47,.22);border-radius:6px;box-shadow:0 8px 22px rgba(4,31,62,.08);padding:16px}
-  .lead-card h3{font-family:"Fraunces",serif;font-size:1.35rem;line-height:1.15;color:#041f3e;margin:0 0 .35rem}
-  .lead-card p{font-family:Georgia,serif;font-size:.93rem;line-height:1.35;color:#263143;margin:0 0 1rem}
+  .lead-modal-backdrop{position:fixed;inset:0;background:rgba(4,6,15,.34);opacity:0;pointer-events:none;transition:.18s;z-index:30}
+  body.lead-open .lead-modal-backdrop{opacity:1;pointer-events:auto}
+  .lead-card{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(520px,calc(100vw - 28px));z-index:31;background:rgba(250,246,235,.98);border:1px solid rgba(149,25,47,.22);border-radius:6px;box-shadow:0 24px 80px rgba(4,31,62,.24);padding:18px}
+  body.lead-open .lead-card{display:block}
+  .lead-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border:1px solid #d4d4ca;background:#fff;color:#041f3e;border-radius:50%;cursor:pointer;font:700 1rem var(--font-mono)}
+  .lead-card h3{font-family:var(--font-primary);font-size:1.35rem;line-height:1.15;color:#041f3e;margin:0 0 .35rem}
+  .lead-card p{font-family:var(--font-primary);font-size:.93rem;line-height:1.35;color:#263143;margin:0 0 1rem}
   .lead-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:.65rem}
-  .lead-card input{width:100%;border:1px solid rgba(4,31,62,.2);background:rgba(255,255,255,.72);border-radius:3px;padding:.78rem .82rem;font:500 .88rem "Inter",system-ui,sans-serif;color:#041f3e}
+  .lead-card input{width:100%;border:1px solid rgba(4,31,62,.2);background:rgba(255,255,255,.72);border-radius:3px;padding:.78rem .82rem;font:500 .88rem var(--font-primary);color:#041f3e}
   .lead-card input:focus{outline:2px solid rgba(201,162,75,.55);outline-offset:2px}
   .lead-card label{display:flex;gap:.55rem;align-items:flex-start;margin:.75rem 0 1rem;font-size:.78rem;line-height:1.35;color:#60708d}
   .lead-card label input{width:auto;margin-top:.18rem}
   .lead-card .btn{color:#041f3e;border-color:#c9a24b;background:rgba(241,212,134,.5)}
   .lead-card .btn:hover{background:#c9a24b;color:#11142a}
-  .lead-status{font-family:"Spline Sans Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#95192f;margin-top:.75rem;min-height:1rem}
+  .lead-status{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#95192f;margin-top:.75rem;min-height:1rem}
+  .result-actions,.footnote{display:none}
   .footnote{color:var(--muted);font-size:.8rem;margin-top:2rem;max-width:60ch}
-  .footnote code{font-family:"Spline Sans Mono",monospace;color:#b9c0dc}
+  .footnote code{font-family:var(--font-mono);color:#b9c0dc}
   a.src{color:var(--gold)}
+  .drawer-backdrop{position:fixed;inset:0;background:rgba(4,6,15,.22);opacity:0;pointer-events:none;transition:.2s;z-index:20}
+  .result-drawer{
+    position:fixed;left:50%;right:auto;top:auto;bottom:0;width:min(760px,100vw);height:min(62vh,640px);z-index:21;
+    background:#fbfbf9;color:#16191e;border:1px solid #d9d9d1;border-bottom:0;
+    box-shadow:0 -24px 70px rgba(4,31,62,.22);transform:translate(-50%,104%);
+    transition:transform .24s ease;display:flex;flex-direction:column;
+  }
+  body.drawer-open .drawer-backdrop{opacity:1;pointer-events:auto}
+  body.drawer-open .result-drawer{transform:translate(-50%,0)}
+  .drawer-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:18px 20px;border-bottom:1px solid #e4e4dd}
+  .drawer-head:before{content:"";position:absolute;top:8px;left:50%;width:46px;height:4px;border-radius:4px;background:#c9c9bf;transform:translateX(-50%)}
+  .drawer-kicker{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:#95192f;margin:0 0 4px}
+  .drawer-title{font-family:var(--font-primary);font-size:1.45rem;line-height:1.05;margin:0;color:#041f3e}
+  .drawer-close{width:34px;height:34px;border:1px solid #d4d4ca;background:#fff;color:#041f3e;border-radius:3px;cursor:pointer;font:700 18px var(--font-mono)}
+  .drawer-tabs{display:flex;border-bottom:1px solid #e4e4dd}
+  .drawer-tab{flex:1;border:0;background:#f4f4ef;color:#60708d;padding:12px;font:700 .68rem var(--font-mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+  .drawer-tab.active{background:#fff;color:#041f3e;box-shadow:inset 0 -2px #c9a24b}
+  .drawer-pane{display:none;overflow:auto;padding:20px}
+  .drawer-pane.active{display:block}
+  .drawer-pane p{font-family:var(--font-primary);font-size:.98rem;line-height:1.38;margin:.7rem 0;color:#263143}
+  .drawer-pane b{color:#041f3e}
+  .drawer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+  .drawer-stat{border:1px solid #e4e4dd;background:#fff;border-radius:4px;padding:12px}
+  .drawer-stat .k{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#95192f}
+  .drawer-stat .v{font-family:var(--font-primary);font-size:1.1rem;color:#041f3e;line-height:1.15;margin-top:4px}
+  .drawer-list{display:grid;gap:8px;margin-top:12px}
+  .drawer-row{display:flex;align-items:center;gap:9px;font-family:var(--font-primary);font-size:.96rem;color:#263143}
+  .drawer-swatch{width:13px;height:13px;border-radius:50%;flex:0 0 auto}
+  .output-tray{max-width:820px;margin:0 auto 1.4rem;background:#fff;border:1px solid #e1e1d8;border-top:0;border-radius:0 0 6px 6px;overflow:hidden;color:#16191e}
+  .output-tabs{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid #e1e1d8;background:#f7f7f2}
+  .output-tab{border:0;background:transparent;padding:13px 8px;color:#60708d;font:700 .68rem var(--font-mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+  .output-tab.active{background:#fff;color:#041f3e;box-shadow:inset 0 -2px var(--gold)}
+  .output-pane{display:none;padding:16px}
+  .output-pane.active{display:block}
+  .output-peek{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:center;margin-bottom:12px}
+  .output-score{font-family:var(--font-primary);font-size:2.6rem;line-height:1;color:#041f3e}
+  .output-label{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#95192f;margin-bottom:3px}
+  .output-title{font-family:var(--font-primary);font-size:1.55rem;line-height:1.05;margin:0;color:#041f3e}
+  .output-copy{font-family:var(--font-primary);font-size:1rem;line-height:1.42;color:#263143;margin:0 0 12px}
+  .output-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .output-card{border:1px solid #e1e1d8;border-radius:4px;background:#fbfbf9;padding:12px}
+  .output-card .v{font-family:var(--font-primary);font-size:1.05rem;color:#041f3e;line-height:1.12}
+  .map-focus{cursor:pointer;transition:opacity .18s ease,filter .18s ease,outline-color .18s ease,stroke-width .18s ease;pointer-events:all}
+  .map-focus.dimmed{opacity:.22}
+  .map-focus.selected{filter:saturate(1.25)}
+  .output-board.folded{display:none}
+  .output-context{border-top:1px solid #e1e1d8;background:#fbfbf9;padding:0 16px;max-height:0;overflow:hidden;opacity:0;transition:max-height .28s ease,opacity .2s ease,padding .2s ease}
+  .output-context.open{max-height:560px;opacity:1;padding:16px}
+  .output-context-head{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #d8d8cf;background:#fff;border-radius:5px;padding:10px 12px;margin-bottom:12px}
+  .output-context-title{font-family:var(--font-primary);font-size:1.2rem;line-height:1.05;color:#041f3e}
+  .output-context-kicker{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#95192f;margin-bottom:3px}
+  .output-context-body{margin:0;color:#263143;max-height:330px;overflow:auto;padding-right:4px}
+  .output-context-close{width:32px;height:32px;border:1px solid #d7d7cf;background:#fff;color:#041f3e;border-radius:50%;padding:0;font:700 1rem var(--font-mono);cursor:pointer}
+  .output-learn{width:100%;margin-top:14px;border:2px solid #041f3e;background:#fff3bf;color:#041f3e;border-radius:3px;padding:12px 14px;font:700 .72rem var(--font-mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+  .comparison-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .comparison-actions .output-learn{margin-top:0}
+  .text-link{border:0;background:transparent;color:#95192f;font:700 .68rem var(--font-mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:underline;cursor:pointer;padding:0}
+  #resultTray .legend-board{display:grid;gap:12px}
+  #resultTray .legend-board.folded{display:none}
+  #resultTray .legend-band{border:1px solid #cfcfc7;background:#fff;padding:12px;min-width:0}
+  #resultTray .legend-band.dimension{display:grid;grid-template-columns:minmax(74px,92px) minmax(0,1fr);gap:10px;align-items:center}
+  #resultTray .legend-head{font-family:var(--font-mono);font-size:clamp(.68rem,2.4vw,.82rem);font-weight:700;line-height:1.08;color:#000;text-transform:uppercase;letter-spacing:.02em}
+  #resultTray .dimension-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
+  #resultTray .dimension-item{display:grid;grid-template-rows:58px auto;justify-items:center;align-items:center;gap:6px;font-family:var(--font-mono);font-size:clamp(.52rem,2vw,.68rem);font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:center;min-width:0}
+  #resultTray .dimension-label{min-height:2.2em;display:flex;align-items:center;justify-content:center}
+  #resultTray .dimension-label.phil{color:#651d20}
+  #resultTray .dimension-label.struct{color:#071b4f}
+  #resultTray .arrow-h{width:70px;height:8px;border-left:4px solid #ff4b4b;border-right:4px solid #ff4b4b;position:relative}
+  #resultTray .arrow-h:before,#resultTray .arrow-h:after{content:"";position:absolute;top:50%;width:9px;height:9px;border-top:4px solid #ff4b4b;border-right:4px solid #ff4b4b}
+  #resultTray .arrow-h:before{left:-5px;transform:translateY(-50%) rotate(-135deg)}
+  #resultTray .arrow-h:after{right:-5px;transform:translateY(-50%) rotate(45deg)}
+  #resultTray .arrow-v{height:54px;width:8px;border-top:4px solid #003a7a;border-bottom:4px solid #003a7a;position:relative}
+  #resultTray .arrow-v:before,#resultTray .arrow-v:after{content:"";position:absolute;left:50%;width:9px;height:9px;border-top:4px solid #003a7a;border-right:4px solid #003a7a}
+  #resultTray .arrow-v:before{top:-5px;transform:translateX(-50%) rotate(-45deg)}
+  #resultTray .arrow-v:after{bottom:-5px;transform:translateX(-50%) rotate(135deg)}
+  #resultTray .ideas-grid,#resultTray .cardinal-grid{display:grid;grid-template-columns:minmax(74px,92px) minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:center}
+  #resultTray .idea-pair{display:grid;grid-template-rows:1fr 1fr;gap:14px;align-items:center;text-align:center;font-family:var(--font-mono);font-size:clamp(.74rem,2.5vw,.95rem);letter-spacing:.08em;text-transform:uppercase;min-width:0}
+  #resultTray .phil-text{color:#6f191c}
+  #resultTray .struct-text{color:#003a7a}
+  #resultTray .legend-list{display:grid;gap:8px}
+  #resultTray .value-box{min-height:52px;display:flex;align-items:center;justify-content:center;border:1px solid #aaa;padding:8px;font-family:var(--font-primary);font-size:clamp(.9rem,3vw,1.12rem);font-weight:500;letter-spacing:0;text-transform:none;line-height:1.08;color:#11113e;text-align:center;overflow-wrap:anywhere}
+  #resultTray .value-box.ci{background:rgba(255,55,55,1);color:#1f0608}
+  #resultTray .value-box.me{background:rgba(116,5,5,.15);color:#3b0b0b}
+  #resultTray .value-box.rp{background:rgba(0,129,204,.15);color:#052b43}
+  #resultTray .value-box.fe{background:rgba(0,56,88,.15);color:#031d2e}
+  #resultTray .value-box,#resultTray .legend-focus{cursor:pointer;transition:opacity .2s ease,filter .2s ease,outline-color .2s ease}
+  #resultTray .value-box.dimmed,#resultTray .legend-focus.dimmed{opacity:.22}
+  #resultTray .value-box.selected,#resultTray .legend-focus.selected{outline:3px solid var(--gold);outline-offset:2px;filter:saturate(1.1)}
+  #resultTray .void-band{display:grid;grid-template-columns:minmax(74px,92px) minmax(0,1fr);gap:10px;align-items:center;border:1px solid #cfcfc7;background:#fff;padding:12px}
+  #resultTray .void-dot{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at center,#000 0%,#05060a 38%,rgba(10,12,20,.55) 72%,rgba(10,12,20,0) 100%);margin:auto;position:relative}
+  #resultTray .void-dot:after{content:"";position:absolute;inset:13px;border-radius:50%;border:1px solid rgba(0,0,0,.55)}
+  #resultTray .legend-return{display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#60708d;margin:0 0 8px}
+  #resultTray .legend-return:before,#resultTray .legend-return:after{content:"";height:1px;background:#d8d8cf;flex:1}
+  @media (max-width:680px){
+    .result-drawer{width:100vw;height:min(78vh,680px)}
+    .drawer-head{padding-top:22px}
+  }
   #intro .eyebrow,#intro h1,#intro .lede,#results .eyebrow,#results .verdict,#results .footnote{display:none}
   #chartHost2:not(.compare-on) .av{display:none}
   #intro .chart-stage{margin:0 0 1.6rem!important}
-  @media (max-width:560px){.scores,.lead-fields{grid-template-columns:1fr}.poles{gap:.8rem}.poles div{font-size:.86rem}#quiz .quiz-float{position:relative;left:auto;top:auto;transform:none;width:100%;margin-top:-22%;padding:18px}}
+  @media (max-width:560px){.scores,.lead-fields{grid-template-columns:1fr}.poles{gap:.8rem}.poles div{font-size:.86rem}#quiz .quiz-float{position:relative;left:auto;top:auto;transform:none;width:100%;margin-top:-22%;padding:18px}.agree{gap:.24rem}.agreelabels{font-size:.62rem}#intro #startBtn{position:relative;top:auto;right:auto;width:100%;margin:0 0 14px}}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -206,129 +322,21 @@
     <p class="eyebrow">The American Ideology Project &nbsp;·&nbsp; 1776–2026</p>
     <h1>A creed built to hold <em>opposites</em> at once.</h1>
     <p class="lede">Most political maps sort you by which side you pick. This one asks something harder: whether you <strong>hold the tensions together</strong> — liberty with equality, the nation with the people — or fall to a pole, drift into the empty middle, or stop believing the whole thing means anything. A short series of questions places you among those who came before.</p>
+    <div class="topbar">
+      <p class="kicker">The American Ideology | 1776-2026</p>
+      <button class="btn" id="startBtn">Begin the quiz</button>
+    </div>
     <div class="chart-stage" style="margin:0 0 2.4rem">
-      <div class="map-title">The American Ideology | 1776-2026</div>
-      <div id="chartHost"><svg class="chart" viewBox="0 0 620 620" role="img" aria-label="Ideological map"><defs>
-        <clippath id="coreClip-preview"><circle cx="310" cy="310" r="55"></circle></clippath>
-        <radialgradient id="radarFade-preview" cx="50%" cy="50%" r="58%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity=".85"></stop>
-          <stop offset="100%" stop-color="#ffffff" stop-opacity=".25"></stop>
-        </radialgradient>
-        <filter id="userGlow-preview" x="-80%" y="-80%" width="260%" height="260%">
-          <fegaussianblur stdDeviation="5" result="blur"></fegaussianblur>
-          <femerge><femergenode in="blur"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
-        </filter>
-        <filter id="plaqueShadow-preview" x="-30%" y="-30%" width="160%" height="180%">
-          <fedropshadow dx="0" dy="3" stdDeviation="1.2" flood-color="#8b5d12" flood-opacity=".38"></fedropshadow>
-        </filter>
-        <radialgradient id="fieldCore-preview" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#f1d486" stop-opacity=".62"></stop>
-          <stop offset="38%" stop-color="#ffffff" stop-opacity=".24"></stop>
-          <stop offset="70%" stop-color="#95192f" stop-opacity=".09"></stop>
-          <stop offset="100%" stop-color="#041f3e" stop-opacity=".08"></stop>
-        </radialgradient>
-        <clippath id="flagSealClip-preview" clipPathUnits="userSpaceOnUse"><circle cx="310" cy="310" r="82"></circle></clippath>
-        <path id="authArc-preview" d="M 222 103 Q 310 74 398 103"></path>
-        <path id="majArc-preview" d="M 222 517 Q 310 546 398 517"></path>
-        <path id="libArc-preview" d="M 103 398 Q 74 310 103 222"></path>
-        <path id="eqArc-preview" d="M 517 222 Q 546 310 517 398"></path>
-        <pattern id="engraving-preview" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
-          <line x1="0" y1="0" x2="0" y2="8" stroke="#041f3e" stroke-opacity=".035" stroke-width="1"></line>
-        </pattern>
-      </defs><rect x="2" y="2" width="616" height="616" rx="6" fill="var(--plot)" stroke="var(--line)"></rect>
-      <rect x="16" y="16" width="588" height="588" rx="4" fill="url(#engraving-preview)" stroke="rgba(149,25,47,.18)" stroke-width="1"></rect><line x1="310" y1="44" x2="310" y2="576" stroke="var(--navy)" stroke-width="6" stroke-linecap="round" opacity=".18"></line>
-      <line x1="310" y1="44" x2="310" y2="576" stroke="var(--navy)" stroke-width="1.4" stroke-linecap="round" opacity=".82"></line>
-      <path d="M 303 54 L 310 41 L 317 54" fill="none" stroke="var(--navy)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M 303 566 L 310 579 L 317 566" fill="none" stroke="var(--navy)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
-      <line x1="44" y1="310" x2="576" y2="310" stroke="var(--red)" stroke-width="6" stroke-linecap="round" opacity=".18"></line>
-      <line x1="44" y1="310" x2="576" y2="310" stroke="var(--red)" stroke-width="1.4" stroke-linecap="round" opacity=".82"></line>
-      <path d="M 54 303 L 41 310 L 54 317" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M 566 303 L 579 310 L 566 317" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="310" cy="310" r="60" fill="none" stroke="var(--grid)"></circle><circle cx="310" cy="310" r="120" fill="none" stroke="var(--grid)"></circle><circle cx="310" cy="310" r="180" fill="none" stroke="var(--grid)"></circle><circle cx="310" cy="310" r="240" fill="none" stroke="var(--grid-strong)"></circle><line x1="70" y1="70" x2="550" y2="70" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="70" x2="70" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="150" x2="550" y2="150" stroke="var(--grid)" stroke-width=".8"></line><line x1="150" y1="70" x2="150" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="230" x2="550" y2="230" stroke="var(--grid)" stroke-width=".8"></line><line x1="230" y1="70" x2="230" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="310" x2="550" y2="310" stroke="var(--grid)" stroke-width=".8"></line><line x1="310" y1="70" x2="310" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="390" x2="550" y2="390" stroke="var(--grid)" stroke-width=".8"></line><line x1="390" y1="70" x2="390" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="470" x2="550" y2="470" stroke="var(--grid)" stroke-width=".8"></line><line x1="470" y1="70" x2="470" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="550" x2="550" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="550" y1="70" x2="550" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="310" x2="550" y2="310" stroke="var(--grid-strong)"></line><line x1="310" y1="70" x2="310" y2="550" stroke="var(--grid-strong)"></line><g opacity=".94">
-        <circle cx="310" cy="310" r="102" fill="rgba(250,246,235,.72)" stroke="rgba(149,25,47,.34)" stroke-width="2"></circle>
-        <g clip-path="url(#flagSealClip-preview)" opacity=".32">
-          <rect x="226" y="226" width="168" height="168" fill="#fff8e6"></rect>
-          <rect x="226" y="228" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="252" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="276" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="300" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="324" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="348" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="372" width="168" height="11" fill="#b73a3f" opacity=".26"></rect>
-          <rect x="226" y="226" width="68" height="84" fill="#0b315b" opacity=".20"></rect>
-          <text x="235" y="236" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="236" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="236" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="236" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="235" y="248" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="248" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="248" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="248" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="235" y="260" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="260" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="260" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="260" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="235" y="272" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="272" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="272" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="272" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="235" y="284" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="284" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="284" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="284" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="235" y="296" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="296" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="296" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="296" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text>
-        </g>
-        <circle cx="310" cy="310" r="92" fill="none" stroke="rgba(4,31,62,.28)" stroke-width="10"></circle>
-        <circle cx="310" cy="310" r="92" fill="none" stroke="rgba(250,246,235,.84)" stroke-width="1.4" stroke-dasharray="4 6"></circle>
-        <circle cx="310" cy="310" r="106" fill="none" stroke="rgba(149,25,47,.25)" stroke-width="1.5"></circle>
-        <circle cx="310" cy="310" r="74" fill="none" stroke="rgba(250,246,235,.72)" stroke-width="1"></circle>
-      </g><line x1="70" y1="310" x2="550" y2="310" stroke="rgba(149,25,47,.38)" stroke-width="1.2"></line><line x1="310" y1="70" x2="310" y2="550" stroke="rgba(4,31,62,.38)" stroke-width="1.2"></line><text class="axis-vert" x="310" y="14" text-anchor="middle">
-        <tspan class="the" x="278" dy="0" font-size="13">THE</tspan>
-        <tspan class="main" x="310" dy="18" font-size="25">NATIONAL</tspan>
-        <tspan class="idea" x="348" dy="17" font-size="13">IDEA</tspan>
-      </text><text class="axis-vert" x="310" y="574" text-anchor="middle">
-        <tspan class="the" x="270" dy="0" font-size="13">THE</tspan>
-        <tspan class="main" x="310" dy="18" font-size="24">DEMOCRATIC</tspan>
-        <tspan class="idea" x="358" dy="17" font-size="13">IDEA</tspan>
-      </text><text class="axis-horiz" x="32" y="315" text-anchor="middle" transform="rotate(-90 32 310)" font-size="23">LIBERTY</text><text class="axis-horiz" x="588" y="315" text-anchor="middle" transform="rotate(90 588 310)" font-size="23">EQUALITY</text></svg></div>
+      <div id="chartHost"></div>
       <div class="tip" id="tip"></div>
     </div>
-    <button class="btn" id="startBtn">Begin the quiz</button>
   </section>
 
   <!-- ============ QUIZ ============ -->
   <section class="panel" id="quiz">
     <div class="chart-stage quiz-map-bg">
       <div class="map-title">The American Ideology | 1776-2026</div>
-      <div id="quizMapHost"><svg class="chart" viewBox="0 0 620 620" role="img" aria-label="Ideological map"><defs>
-        <clippath id="coreClip-preview"><circle cx="310" cy="310" r="55"></circle></clippath>
-        <radialgradient id="radarFade-preview" cx="50%" cy="50%" r="58%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity=".85"></stop>
-          <stop offset="100%" stop-color="#ffffff" stop-opacity=".25"></stop>
-        </radialgradient>
-        <filter id="userGlow-preview" x="-80%" y="-80%" width="260%" height="260%">
-          <fegaussianblur stdDeviation="5" result="blur"></fegaussianblur>
-          <femerge><femergenode in="blur"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
-        </filter>
-        <filter id="plaqueShadow-preview" x="-30%" y="-30%" width="160%" height="180%">
-          <fedropshadow dx="0" dy="3" stdDeviation="1.2" flood-color="#8b5d12" flood-opacity=".38"></fedropshadow>
-        </filter>
-        <radialgradient id="fieldCore-preview" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#f1d486" stop-opacity=".62"></stop>
-          <stop offset="38%" stop-color="#ffffff" stop-opacity=".24"></stop>
-          <stop offset="70%" stop-color="#95192f" stop-opacity=".09"></stop>
-          <stop offset="100%" stop-color="#041f3e" stop-opacity=".08"></stop>
-        </radialgradient>
-        <clippath id="flagSealClip-preview" clipPathUnits="userSpaceOnUse"><circle cx="310" cy="310" r="82"></circle></clippath>
-        <path id="authArc-preview" d="M 222 103 Q 310 74 398 103"></path>
-        <path id="majArc-preview" d="M 222 517 Q 310 546 398 517"></path>
-        <path id="libArc-preview" d="M 103 398 Q 74 310 103 222"></path>
-        <path id="eqArc-preview" d="M 517 222 Q 546 310 517 398"></path>
-        <pattern id="engraving-preview" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
-          <line x1="0" y1="0" x2="0" y2="8" stroke="#041f3e" stroke-opacity=".035" stroke-width="1"></line>
-        </pattern>
-      </defs><rect x="2" y="2" width="616" height="616" rx="6" fill="var(--plot)" stroke="var(--line)"></rect>
-      <rect x="16" y="16" width="588" height="588" rx="4" fill="url(#engraving-preview)" stroke="rgba(149,25,47,.18)" stroke-width="1"></rect><line x1="310" y1="44" x2="310" y2="576" stroke="var(--navy)" stroke-width="6" stroke-linecap="round" opacity=".18"></line>
-      <line x1="310" y1="44" x2="310" y2="576" stroke="var(--navy)" stroke-width="1.4" stroke-linecap="round" opacity=".82"></line>
-      <path d="M 303 54 L 310 41 L 317 54" fill="none" stroke="var(--navy)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M 303 566 L 310 579 L 317 566" fill="none" stroke="var(--navy)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
-      <line x1="44" y1="310" x2="576" y2="310" stroke="var(--red)" stroke-width="6" stroke-linecap="round" opacity=".18"></line>
-      <line x1="44" y1="310" x2="576" y2="310" stroke="var(--red)" stroke-width="1.4" stroke-linecap="round" opacity=".82"></line>
-      <path d="M 54 303 L 41 310 L 54 317" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M 566 303 L 579 310 L 566 317" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="310" cy="310" r="60" fill="none" stroke="var(--grid)"></circle><circle cx="310" cy="310" r="120" fill="none" stroke="var(--grid)"></circle><circle cx="310" cy="310" r="180" fill="none" stroke="var(--grid)"></circle><circle cx="310" cy="310" r="240" fill="none" stroke="var(--grid-strong)"></circle><line x1="70" y1="70" x2="550" y2="70" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="70" x2="70" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="150" x2="550" y2="150" stroke="var(--grid)" stroke-width=".8"></line><line x1="150" y1="70" x2="150" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="230" x2="550" y2="230" stroke="var(--grid)" stroke-width=".8"></line><line x1="230" y1="70" x2="230" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="310" x2="550" y2="310" stroke="var(--grid)" stroke-width=".8"></line><line x1="310" y1="70" x2="310" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="390" x2="550" y2="390" stroke="var(--grid)" stroke-width=".8"></line><line x1="390" y1="70" x2="390" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="470" x2="550" y2="470" stroke="var(--grid)" stroke-width=".8"></line><line x1="470" y1="70" x2="470" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="550" x2="550" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="550" y1="70" x2="550" y2="550" stroke="var(--grid)" stroke-width=".8"></line><line x1="70" y1="310" x2="550" y2="310" stroke="var(--grid-strong)"></line><line x1="310" y1="70" x2="310" y2="550" stroke="var(--grid-strong)"></line><g opacity=".94">
-        <circle cx="310" cy="310" r="102" fill="rgba(250,246,235,.72)" stroke="rgba(149,25,47,.34)" stroke-width="2"></circle>
-        <g clip-path="url(#flagSealClip-preview)" opacity=".32">
-          <rect x="226" y="226" width="168" height="168" fill="#fff8e6"></rect>
-          <rect x="226" y="228" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="252" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="276" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="300" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="324" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="348" width="168" height="11" fill="#b73a3f" opacity=".26"></rect><rect x="226" y="372" width="168" height="11" fill="#b73a3f" opacity=".26"></rect>
-          <rect x="226" y="226" width="68" height="84" fill="#0b315b" opacity=".20"></rect>
-          <text x="235" y="236" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="236" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="236" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="236" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="235" y="248" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="248" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="248" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="248" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="235" y="260" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="260" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="260" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="260" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="235" y="272" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="272" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="272" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="272" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="235" y="284" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="284" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="284" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="284" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="235" y="296" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="250" y="296" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="265" y="296" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text><text x="280" y="296" text-anchor="middle" font-size="10" fill="#fff" opacity=".72">★</text>
-        </g>
-        <circle cx="310" cy="310" r="92" fill="none" stroke="rgba(4,31,62,.28)" stroke-width="10"></circle>
-        <circle cx="310" cy="310" r="92" fill="none" stroke="rgba(250,246,235,.84)" stroke-width="1.4" stroke-dasharray="4 6"></circle>
-        <circle cx="310" cy="310" r="106" fill="none" stroke="rgba(149,25,47,.25)" stroke-width="1.5"></circle>
-        <circle cx="310" cy="310" r="74" fill="none" stroke="rgba(250,246,235,.72)" stroke-width="1"></circle>
-      </g><line x1="70" y1="310" x2="550" y2="310" stroke="rgba(149,25,47,.38)" stroke-width="1.2"></line><line x1="310" y1="70" x2="310" y2="550" stroke="rgba(4,31,62,.38)" stroke-width="1.2"></line><text class="axis-vert" x="310" y="14" text-anchor="middle">
-        <tspan class="the" x="278" dy="0" font-size="13">THE</tspan>
-        <tspan class="main" x="310" dy="18" font-size="25">NATIONAL</tspan>
-        <tspan class="idea" x="348" dy="17" font-size="13">IDEA</tspan>
-      </text><text class="axis-vert" x="310" y="574" text-anchor="middle">
-        <tspan class="the" x="270" dy="0" font-size="13">THE</tspan>
-        <tspan class="main" x="310" dy="18" font-size="24">DEMOCRATIC</tspan>
-        <tspan class="idea" x="358" dy="17" font-size="13">IDEA</tspan>
-      </text><text class="axis-horiz" x="32" y="315" text-anchor="middle" transform="rotate(-90 32 310)" font-size="23">LIBERTY</text><text class="axis-horiz" x="588" y="315" text-anchor="middle" transform="rotate(90 588 310)" font-size="23">EQUALITY</text></svg></div>
+      <div id="quizMapHost"></div>
     </div>
     <div class="quiz-float">
       <div class="progress"><span id="prog" style="width: 0%;"></span></div>
@@ -351,19 +359,23 @@
       <div id="chartHost2"></div>
       <div class="tip" id="tip2"></div>
     </div>
+    <div id="resultTray"></div>
     <div class="verdict" id="verdict"></div>
     <form class="lead-card" id="leadForm">
-      <h3>Email me my result</h3>
-      <p>Send yourself a copy of your American Ideology score and result. Your answers stay summarized as a profile, not as item-by-item responses.</p>
+      <button class="lead-close" id="leadClose" type="button" aria-label="Close">X</button>
+      <p class="output-label">Learn More</p>
+      <h3>LEARN MORE</h3>
+      <p>Get your personal American Ideology Index ratings, including coordinate details, and benchmarks against other survey takers.</p>
       <div class="lead-fields">
         <input id="leadName" name="name" type="text" autocomplete="name" placeholder="First name">
         <input id="leadEmail" name="email" type="email" autocomplete="email" placeholder="Email address" required="">
       </div>
-      <label><input id="leadConsent" type="checkbox" required=""> I agree to receive my quiz result and related American Ideology Project updates.</label>
+      <label><input id="leadConsent" type="checkbox" required=""> Send me my result and occasional American Ideology Project updates.</label>
       <button class="btn" type="submit">Send my result</button>
       <div class="lead-status" id="leadStatus" aria-live="polite"></div>
     </form>
     <div class="qnav result-actions">
+      <button class="btn" id="drawerBtn" type="button">Read result</button>
       <button class="btn ghost" id="againBtn">Take it again</button>
       <button class="btn ghost" id="compareBtn">How do you compare</button>
     </div>
@@ -371,6 +383,23 @@
   </section>
 
 </div>
+<div class="lead-modal-backdrop" id="leadBackdrop"></div>
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="result-drawer" id="resultDrawer" aria-hidden="true" aria-label="Result details">
+  <div class="drawer-head">
+    <div>
+      <p class="drawer-kicker">Your result</p>
+      <h2 class="drawer-title" id="drawerTitle">Your reading</h2>
+    </div>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close result drawer">?</button>
+  </div>
+  <div class="drawer-tabs" role="tablist">
+    <button class="drawer-tab active" id="drawerTabInterpretation" type="button" data-pane="drawerInterpretation">Result</button>
+    <button class="drawer-tab" id="drawerTabLayers" type="button" data-pane="drawerLayers">Comparison</button>
+  </div>
+  <div class="drawer-pane active" id="drawerInterpretation"></div>
+  <div class="drawer-pane" id="drawerLayers"></div>
+</aside>
 
 <script>
 /* =================================================================
@@ -414,91 +443,104 @@ const AVATARS = [
             value 1 (strongly disagree) .. 7 (strongly agree)
    ----------------------------------------------------------------- */
 const QUESTIONS = [
-  // --- TENSIONAL: Liberty ⇆ Equality (sets X). lp = which pole is the LEFT statement ---
-  {t:'slider', axis:'LE', lp:'L', sect:'Placement · Liberty ⇆ Equality',
-    left:"The right to free speech is absolute, even if some speech offends others.",
-    right:"No one has the right to speech that undermines the dignity or safety of excluded groups."},
-  {t:'slider', axis:'LE', lp:'L', sect:'Placement · Liberty ⇆ Equality',
-    left:"Equality is a myth because there will always be winners and losers.",
-    right:"Freedom is something only the powerful have, to exploit the weak."},
-  {t:'slider', axis:'LE', lp:'E', sect:'Placement · Liberty ⇆ Equality',
+  {t:'slider', axis:"LE", lp:"L", sect:"Placement - Liberty ? Equality",
+    left:"Free speech is absolute, even if some speech offends.",
+    right:"No right to speech that undermines dignity/safety of excluded groups."},
+  {t:'slider', axis:"LE", lp:"E", sect:"Placement - Liberty ? Equality",
+    left:"Freedom is something only the powerful have, to exploit the weak.",
+    right:"Equality is a myth; there will always be winners and losers."},
+  {t:'slider', axis:"LE", lp:"E", sect:"Placement - Liberty ? Equality",
     left:"Being compassionate and helping others is what I want to be known for.",
     right:"Being successful and a hard worker is what I want to be known for."},
-  {t:'slider', axis:'LE', lp:'L', sect:'Placement · Liberty ⇆ Equality',
-    left:"Religious freedom means government should stay neutral on moral issues.",
-    right:"Government should promote traditional religious values for society's good."},
-  // --- TENSIONAL: National ⇆ Democratic (sets Y). lp = which pole is the LEFT statement ---
-  {t:'slider', axis:'ND', lp:'N', sect:'Placement · Nation ⇆ People',
+  {t:'slider', axis:"LE", lp:"E", sect:"Placement - Liberty ? Equality",
+    left:"Religious freedom means government stays neutral on moral issues.",
+    right:"Government should promote traditional religious values."},
+  {t:'slider', axis:"ND", lp:"N", sect:"Placement - Nation ? People",
     left:"National unity is our greatest strength.",
     right:"Our diversity is our greatest strength."},
-  {t:'slider', axis:'ND', lp:'N', sect:'Placement · Nation ⇆ People',
-    left:"Government decisions should be efficient, decisive, and swift.",
-    right:"Government decisions should truly reflect the people's will, even if slow and complicated."},
-  {t:'slider', axis:'ND', lp:'D', sect:'Placement · Nation ⇆ People',
-    left:"Most of what the federal government does should be shifted to states and the people themselves.",
-    right:"The federal government should expand its size and role to do much more for all Americans."},
-  {t:'slider', axis:'ND', lp:'D', sect:'Placement · Nation ⇆ People',
-    left:"I'm more afraid of a dictator than I am of the voice of the people.",
-    right:"I'm more afraid of mob rule than I am of a strong leader."},
-  // --- CARDINAL: 24 items, your authoritative codes. rev:true = reverse-keyed (scored 8 − raw), doubling as acquiescence checks. ---
-  {t:'agree', cardinal:'RP', sect:'Character · the value you hold',
+  {t:'slider', axis:"ND", lp:"N", sect:"Placement - Nation ? People",
+    left:"Government decisions should be efficient, decisive, swift.",
+    right:"Decisions should reflect the people's will, even if slow."},
+  {t:'slider', axis:"ND", lp:"D", sect:"Placement - Nation ? People",
+    left:"Most federal functions should shift to states and the people.",
+    right:"The federal government should expand to do more for all."},
+  {t:'slider', axis:"ND", lp:"D", sect:"Placement - Nation ? People",
+    left:"More afraid of a dictator than of the voice of the people.",
+    right:"More afraid of mob rule than of a strong leader."},
+  {t:'agree', cardinal:"RP", sect:"Character - the value you hold",
     text:"America can survive only if its people have the moral character to govern themselves."},
-  {t:'agree', cardinal:'ME', rev:true, sect:'Character · the value you hold',
-    text:"Being born equal isn't enough — we have a duty to make sure people remain equal, especially given the extreme inequality in America today."},
-  {t:'agree', cardinal:'CI', sect:'Character · the value you hold',
-    text:"Most people who want to get ahead can make it if they're willing to work hard."},
-  {t:'agree', cardinal:'RP', sect:'Character · the value you hold',
-    text:"The U.S. Constitution should be the final authority in resolving political disputes."},
-  {t:'agree', cardinal:'CI', sect:'Character · the value you hold',
-    text:"When we rely on government to solve problems in our communities, it weakens the bonds of community and mutual responsibility."},
-  {t:'agree', cardinal:'FE', rev:true, sect:'Character · the value you hold',
-    text:"It would be better if we had one national policy for major issues like education, healthcare, and the environment."},
-  {t:'agree', cardinal:'FE', sect:'Character · the value you hold',
-    text:"Our freedom is more secure when power is spread out — not concentrated in Washington."},
-  {t:'agree', cardinal:'FE', sect:'Character · the value you hold',
-    text:"Too much power in one branch of government is dangerous, no matter who holds it."},
-  {t:'agree', cardinal:'ME', sect:'Character · the value you hold',
-    text:"Equality is empty if we don't do more to make sure every child has the same opportunities — especially through education."},
-  {t:'agree', cardinal:'CI', rev:true, sect:'Character · the value you hold',
-    text:"We need to stop judging people's personal choices so harshly in this country."},
-  {t:'agree', cardinal:'ME', rev:true, sect:'Character · the value you hold',
-    text:"I don't see any real equality in America, where divisions of class and race give power to the few."},
-  {t:'agree', cardinal:'RP', sect:'Character · the value you hold',
+  {t:'agree', cardinal:"RP", rev:true, sect:"Character - the value you hold",
+    text:"The Constitution was written for another time—it doesn’t fit the needs of modern America"},
+  {t:'agree', cardinal:"RP", sect:"Character - the value you hold",
     text:"Officeholders should be held to high moral and ethical standards."},
-  {t:'agree', cardinal:'CI', sect:'Character · the value you hold',
-    text:"The freedom to move, start over, and remake yourself is important to me and how I see America."},
-  {t:'agree', cardinal:'FE', sect:'Character · the value you hold',
-    text:"One of the things I like most about America is that we have places as different as California and Texas, each doing things their own way."},
-  {t:'agree', cardinal:'ME', sect:'Character · the value you hold',
-    text:"I'm less concerned with billionaires getting richer than with the possibility that my children won't be better off than I am."},
-  {t:'agree', cardinal:'ME', sect:'Character · the value you hold',
-    text:"No matter how much money, fame, or power you have, as an American I'm going to treat you like anyone else."},
-  {t:'agree', cardinal:'FE', sect:'Character · the value you hold',
-    text:"Most of the decisions that affect my daily life are made at the local or state level, not in Washington."},
-  {t:'agree', cardinal:'CI', sect:'Character · the value you hold',
-    text:"When immigrants start businesses, contribute to civic life, and support each other, it reminds us what it means to be American."},
-  {t:'agree', cardinal:'RP', sect:'Character · the value you hold',
-    text:"The Bill of Rights is essential to protect our freedoms by limiting what government can do — even if the majority disagrees."},
-  {t:'agree', cardinal:'FE', sect:'Character · the value you hold',
-    text:"Most decisions about what schools teach should be made by parents and local communities, not by the federal government."},
-  {t:'agree', cardinal:'CI', sect:'Character · the value you hold',
-    text:"Voluntary associations — churches, civic groups, and community organizations — are essential to preserving American democracy."},
-  {t:'agree', cardinal:'CI', rev:true, sect:'Character · the value you hold',
-    text:"It is more important to be true to yourself than to live by the expectations of your family or community."},
-  {t:'agree', cardinal:'CI', sect:'Character · the value you hold',
-    text:"Businesses should be expected to serve their communities, not just their shareholders."},
-  {t:'agree', cardinal:'FE', rev:true, sect:'Character · the value you hold',
-    text:"Most of the important news today happens at the national level; local issues don't matter as much anymore."},
-  // --- NIHILISM: the frame gate ---
-  {t:'agree', cardinal:'NIHIL', sect:'The frame · do you grant it',
+  {t:'agree', cardinal:"RP", sect:"Character - the value you hold",
+    text:"The Bill of Rights is essential to protect our freedoms by limiting government, even if the majority disagrees."},
+  {t:'agree', cardinal:"RP", rev:true, sect:"Character - the value you hold",
+    text:"The American justice system has never treated everyone equally—it has always worked better for the wealthy and powerful."},
+  {t:'agree', cardinal:"RP", sect:"Character - the value you hold",
+    text:"I welcome the chance to serve on a jury because I believe every person has the right to be judged by their peers"},
+  {t:'agree', cardinal:"RP", sect:"Character - the value you hold",
+    text:"Even when my preferred candidate loses, I accept the results and keep working within the system"},
+  {t:'agree', cardinal:"ME", rev:true, sect:"Character - the value you hold",
+    text:"Being born equal isn't enough; we have a duty to make sure people remain equal, especially given today's extreme inequality."},
+  {t:'agree', cardinal:"ME", sect:"Character - the value you hold",
+    text:"Equality is empty if we don't do more to ensure every child has the same opportunities, especially through education."},
+  {t:'agree', cardinal:"ME", rev:true, sect:"Character - the value you hold",
+    text:"I don't see any real equality in America, where class and race give power to the few."},
+  {t:'agree', cardinal:"ME", sect:"Character - the value you hold",
+    text:"I'm less concerned with billionaires getting richer than with my children not being better off than I am."},
+  {t:'agree', cardinal:"ME", sect:"Character - the value you hold",
+    text:"No matter your money, fame, or power, as an American I'll treat you like anyone else."},
+  {t:'agree', cardinal:"ME", sect:"Character - the value you hold",
+    text:"I consider myself middle class"},
+  {t:'agree', cardinal:"ME", rev:true, sect:"Character - the value you hold",
+    text:"Good manners are mostly a way of showing people the respect they've earned"},
+  {t:'agree', cardinal:"CI", sect:"Character - the value you hold",
+    text:"Most people who want to get ahead can make it if they're willing to work hard."},
+  {t:'agree', cardinal:"CI", sect:"Character - the value you hold",
+    text:"Relying on government to solve community problems weakens the bonds of community and mutual responsibility."},
+  {t:'agree', cardinal:"CI", rev:true, sect:"Character - the value you hold",
+    text:"We need to stop judging people's personal choices so harshly."},
+  {t:'agree', cardinal:"CI", sect:"Character - the value you hold",
+    text:"The freedom to move, start over, and remake yourself is central to how I see America."},
+  {t:'agree', cardinal:"CI", sect:"Character - the value you hold",
+    text:"When immigrants start businesses and support each other, it reminds us what it means to be American."},
+  {t:'agree', cardinal:"CI", sect:"Character - the value you hold",
+    text:"Voluntary associations (churches, civic groups, community organizations) are essential to American democracy."},
+  {t:'agree', cardinal:"CI", rev:true, sect:"Character - the value you hold",
+    text:"It is more important to be true to yourself than to live by family or community expectations."},
+  {t:'agree', cardinal:"CI", sect:"Character - the value you hold",
+    text:"Businesses should serve their communities, not just shareholders."},
+  {t:'agree', cardinal:"FE", rev:true, sect:"Character - the value you hold",
+    text:"It would be better to have one national policy for issues like education, healthcare, and the environment."},
+  {t:'agree', cardinal:"FE", sect:"Character - the value you hold",
+    text:"Our freedom is more secure when power is spread out, not concentrated in Washington."},
+  {t:'agree', cardinal:"FE", sect:"Character - the value you hold",
+    text:"Too much power in one branch of government is dangerous, no matter who holds it."},
+  {t:'agree', cardinal:"FE", sect:"Character - the value you hold",
+    text:"I like that America has places as different as California and Texas, each doing things their own way."},
+  {t:'agree', cardinal:"FE", sect:"Character - the value you hold",
+    text:"Most decisions affecting my daily life are made at the local or state level, not in Washington."},
+  {t:'agree', cardinal:"FE", sect:"Character - the value you hold",
+    text:"Most decisions about what schools teach should be made by parents and local communities."},
+  {t:'agree', cardinal:"FE", rev:true, sect:"Character - the value you hold",
+    text:"Most important news happens at the national level; local issues don't matter as much."},
+  {t:'agree', cardinal:"FE", rev:true, sect:"Character - the value you hold",
+    text:"Some states have gone so far off track, I don’t think they represent American values anymore."},
+  {t:'agree', cardinal:"NIHIL", sect:"The frame - do you grant it",
     text:"Government is pretty much run by a few big interests looking out for themselves."},
-  {t:'agree', cardinal:'NIHIL', sect:'The frame · do you grant it',
-    text:"The political system is so corrupt that I don't trust the outcome of any election."},
-  {t:'agree', cardinal:'NIHIL', sect:'The frame · do you grant it',
-    text:"People talk about freedom and equality, but in the end, it's really just about power."},
+  {t:'agree', cardinal:"NIHIL", sect:"The frame - do you grant it",
+    text:"The system is so corrupt that I don't trust the outcome of any election."},
+  {t:'agree', cardinal:"NIHIL", sect:"The frame - do you grant it",
+    text:"People talk about freedom and equality, but in the end it's really just about power."},
+  {t:'agree', cardinal:"NIHIL", sect:"The frame - do you grant it",
+    text:"It doesn’t really matter who wins elections anymore—nothing ever changes for people like me"}
 ];
 
 const CARD_NAMES = {CI:"Communitarian Individualism", ME:"Moral Equality", RP:"Republicanism", FE:"Federalism"};
+function displayTaxonomy(label){
+  return (label || '').toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+}
 const CARDINAL_CONTENT = {
   RP: {
     kind:"Closest Cardinal Value",
@@ -740,14 +782,14 @@ function buildChart(withUser, user){
           <line x1="${ux}" y1="${uy-16}" x2="${ux}" y2="${uy-7}" stroke="#526b84" stroke-width="3"/>
           <line x1="${ux}" y1="${uy+7}" x2="${ux}" y2="${uy+16}" stroke="#526b84" stroke-width="3"/>
           <circle cx="${ux}" cy="${uy}" r="10" fill="#526b84" stroke="#fffdf7" stroke-width="3"/>
-          <text x="${ux}" y="${uy-24}" text-anchor="middle" font-family="Spline Sans Mono,monospace" font-size="13" fill="#041f3e" letter-spacing=".08em" font-weight="700">YOU</text>
+          <text x="${ux}" y="${uy-24}" text-anchor="middle" font-family="JetBrains Mono, Spline Sans Mono, SFMono-Regular, monospace" font-size="13" fill="#041f3e" letter-spacing=".08em" font-weight="700">YOU</text>
         </g>`;
     s+=`<foreignObject x="52" y="652" width="516" height="226">
           <div xmlns="http://www.w3.org/1999/xhtml" class="result-copy-card">
             ${aiScore?`<div class="ai-score-card">
               <div class="ai-score-num">${aiScore.score}</div>
               <div>
-                <div class="ai-score-label">${aiScore.label}</div>
+                <div class="ai-score-label">${displayTaxonomy(aiScore.label)}</div>
                 <div class="ai-score-desc">${aiScore.description}</div>
               </div>
             </div>`:''}
@@ -759,6 +801,123 @@ function buildChart(withUser, user){
   }
   s+=`</svg>`;
   return s;
+}
+
+function buildFoundationMap(withUser=false, user=null){
+  const H = 720;
+  const nearest = withUser ? MAP_CONTENT[user.dominant] : null;
+  const aiScore = withUser ? user.aiScore : null;
+  const ux = withUser ? 360 + user.x*305 : 360;
+  const uy = withUser ? 360 - user.y*305 : 360;
+  // Light the wedge under the user's plotted position (not their strongest cardinal),
+  // so the lit quadrant matches where the YOU dot actually sits.
+  const innerWedge = {RP:'RP',AUTH:'RP',FE:'FE',MAJ:'FE',CI:'CI',LIB:'CI',ME:'ME',EQ:'ME'}[user?.dominant];
+  const wedgeOpacity = id => withUser && innerWedge ? (id === innerWedge ? 1 : .15) : .3;
+  const activeColor = {
+    RP:"#0081cc",
+    FE:"#003858",
+    CI:"#ff3737",
+    ME:"#740505",
+    AUTH:"#0081cc",
+    MAJ:"#003858",
+    LIB:"#ff3737",
+    EQ:"#740505"
+  }[user?.dominant] || "#526b84";
+  return `<svg class="chart" viewBox="0 0 720 ${H}" role="img" aria-label="The American Ideology map">
+    <defs>
+      <pattern id="foundationGrid" width="45" height="45" patternUnits="userSpaceOnUse">
+        <path d="M45 0 H0 V45" fill="none" stroke="#1a2230" stroke-width="1" opacity="0.05"/>
+      </pattern>
+      <radialGradient id="foundationAbyss" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#000000" stop-opacity="1"/>
+        <stop offset="38%" stop-color="#05060a" stop-opacity="0.96"/>
+        <stop offset="72%" stop-color="#0a0c14" stop-opacity="0.55"/>
+        <stop offset="100%" stop-color="#0a0c14" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="foundationUserGlow" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <rect width="720" height="${H}" fill="#FBFBF9"/>
+    <rect x=".5" y=".5" width="719" height="719" rx="4" fill="none" stroke="#e6e6e0"/>
+    <rect width="720" height="720" fill="url(#foundationGrid)"/>
+    <g>
+      <path class="map-focus" data-focus="rp" d="M360 360 L254 254 A150 150 0 0 1 466 254 Z" fill="#0081cc" fill-opacity="${wedgeOpacity('RP')}"/>
+      <path class="map-focus" data-focus="me" d="M360 360 L466 254 A150 150 0 0 1 466 466 Z" fill="#740505" fill-opacity="${wedgeOpacity('ME')}"/>
+      <path class="map-focus" data-focus="fe" d="M360 360 L466 466 A150 150 0 0 1 254 466 Z" fill="#003858" fill-opacity="${wedgeOpacity('FE')}"/>
+      <path class="map-focus" data-focus="ci" d="M360 360 L254 466 A150 150 0 0 1 254 254 Z" fill="#ff3737" fill-opacity="${wedgeOpacity('CI')}"/>
+    </g>
+    <line class="map-focus" data-focus="ci" x1="55" y1="360" x2="360" y2="360" stroke="#ff3737" stroke-width="1" stroke-opacity=".6"/>
+    <line class="map-focus" data-focus="me" x1="360" y1="360" x2="665" y2="360" stroke="#740505" stroke-width="1" stroke-opacity=".6"/>
+    <line class="map-focus" data-focus="rp" x1="360" y1="55" x2="360" y2="360" stroke="#0081cc" stroke-width="1" stroke-opacity=".6"/>
+    <line class="map-focus" data-focus="fe" x1="360" y1="360" x2="360" y2="665" stroke="#003858" stroke-width="1" stroke-opacity=".6"/>
+    <g stroke="#cfcfc7" stroke-width="1" opacity=".7">
+      <line x1="360" y1="360" x2="144" y2="144"/>
+      <line x1="360" y1="360" x2="576" y2="144"/>
+      <line x1="360" y1="360" x2="576" y2="576"/>
+      <line x1="360" y1="360" x2="144" y2="576"/>
+    </g>
+    <g fill="none" stroke="#c2c2b7" stroke-width="0.75">
+      <circle cx="360" cy="360" r="150"/>
+      <circle cx="360" cy="360" r="230"/>
+      <circle cx="360" cy="360" r="305"/>
+    </g>
+    <g stroke-width="1.6">
+      <line x1="354" y1="55" x2="366" y2="55" stroke="#0081cc"/>
+      <line x1="354" y1="665" x2="366" y2="665" stroke="#003858"/>
+      <line x1="55" y1="354" x2="55" y2="366" stroke="#ff3737"/>
+      <line x1="665" y1="354" x2="665" y2="366" stroke="#740505"/>
+    </g>
+    <g font-family="JetBrains Mono, Spline Sans Mono, SFMono-Regular, monospace" font-size="9" letter-spacing=".1em" opacity=".6">
+      <text class="map-focus" data-focus="authoritarianism" fill="#0081cc" x="360" y="40" text-anchor="middle">AUTHORITARIANISM</text>
+      <text class="map-focus" data-focus="majoritarianism" fill="#003858" x="360" y="688" text-anchor="middle">MAJORITARIANISM</text>
+      <text class="map-focus" data-focus="libertarianism" fill="#ff3737" x="40" y="360" text-anchor="middle" transform="rotate(-90 40 360)">LIBERTARIANISM</text>
+      <text class="map-focus" data-focus="equity" fill="#740505" x="686" y="360" text-anchor="middle" transform="rotate(90 686 360)">EQUITY</text>
+    </g>
+    <g font-family="JetBrains Mono, Spline Sans Mono, SFMono-Regular, monospace" font-size="22" letter-spacing=".16em" font-weight="500">
+      <text class="map-focus" data-focus="national" fill="#0081cc" x="360" y="92" text-anchor="middle">NATIONAL IDEA</text>
+      <text class="map-focus" data-focus="democratic" fill="#003858" x="360" y="636" text-anchor="middle">DEMOCRATIC IDEA</text>
+      <text class="map-focus" data-focus="liberty" fill="#ff3737" x="92" y="360" text-anchor="middle" transform="rotate(-90 92 360)">LIBERTY</text>
+      <text class="map-focus" data-focus="equality" fill="#740505" x="628" y="360" text-anchor="middle" transform="rotate(90 628 360)">EQUALITY</text>
+    </g>
+    <circle class="map-focus" data-focus="void" cx="360" cy="360" r="22" fill="url(#foundationAbyss)"/>
+    <circle class="map-focus" data-focus="void" cx="360" cy="360" r="10" fill="none" stroke="#000" stroke-opacity=".55" stroke-width="1"/>
+    <g id="foundationLegend" transform="translate(60 756)" style="display:none">
+      <text x="300" y="0" text-anchor="middle" font-family="JetBrains Mono, Spline Sans Mono, SFMono-Regular, monospace" font-size="11" letter-spacing=".24em" fill="#3a3f47">THE FOUR CARDINAL VALUES</text>
+      <g transform="translate(0 34)">
+        <text x="0" y="0" font-family="JetBrains Mono, Spline Sans Mono, SFMono-Regular, monospace" font-size="9" letter-spacing=".18em" fill="#8a2326">PHILOSOPHICAL AXIS · LIBERTY ⇆ EQUALITY</text>
+        <rect x="0" y="17" width="276" height="38" rx="3" fill="#fff" stroke="#e4e4dd"/>
+        <circle cx="20" cy="36" r="7" fill="#ff3737"/>
+        <text x="38" y="41" font-family="Fraunces, Georgia, serif" font-size="15" fill="#2c313a">Communitarian Individualism</text>
+        <rect x="0" y="65" width="276" height="38" rx="3" fill="#fff" stroke="#e4e4dd"/>
+        <circle cx="20" cy="84" r="7" fill="#740505"/>
+        <text x="38" y="89" font-family="Fraunces, Georgia, serif" font-size="15" fill="#2c313a">Moral Equality</text>
+      </g>
+      <g transform="translate(324 34)">
+        <text x="0" y="0" font-family="JetBrains Mono, Spline Sans Mono, SFMono-Regular, monospace" font-size="9" letter-spacing=".18em" fill="#1d4f72">STRUCTURAL AXIS · NATION ⇆ PEOPLE</text>
+        <rect x="0" y="17" width="276" height="38" rx="3" fill="#fff" stroke="#e4e4dd"/>
+        <circle cx="20" cy="36" r="7" fill="#0081cc"/>
+        <text x="38" y="41" font-family="Fraunces, Georgia, serif" font-size="15" fill="#2c313a">Republicanism</text>
+        <rect x="0" y="65" width="276" height="38" rx="3" fill="#fff" stroke="#e4e4dd"/>
+        <circle cx="20" cy="84" r="7" fill="#003858"/>
+        <text x="38" y="89" font-family="Fraunces, Georgia, serif" font-size="15" fill="#2c313a">Federalism</text>
+      </g>
+    </g>
+    ${withUser ? (Math.hypot(user.x,user.y)<0.08 ? `<g id="userMarkTop" pointer-events="none" filter="url(#foundationUserGlow)">
+      <circle cx="360" cy="360" r="34" fill="none" stroke="${activeColor}" stroke-width="3"/>
+      <circle cx="360" cy="360" r="43" fill="none" stroke="#16191E" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="4 5"/>
+      <text x="360" y="309" text-anchor="middle" font-family="JetBrains Mono, Spline Sans Mono, SFMono-Regular, monospace" font-size="13" fill="#16191E" letter-spacing=".08em" font-weight="700">YOU</text>
+    </g>` : `<g id="userMarkTop" pointer-events="none" filter="url(#foundationUserGlow)">
+      <circle cx="${ux}" cy="${uy}" r="18" fill="rgba(251,251,249,.96)" stroke="#16191E" stroke-width="2.6"/>
+      <line x1="${ux-17}" y1="${uy}" x2="${ux-7}" y2="${uy}" stroke="${activeColor}" stroke-width="3"/>
+      <line x1="${ux+7}" y1="${uy}" x2="${ux+17}" y2="${uy}" stroke="${activeColor}" stroke-width="3"/>
+      <line x1="${ux}" y1="${uy-17}" x2="${ux}" y2="${uy-7}" stroke="${activeColor}" stroke-width="3"/>
+      <line x1="${ux}" y1="${uy+7}" x2="${ux}" y2="${uy+17}" stroke="${activeColor}" stroke-width="3"/>
+      <circle cx="${ux}" cy="${uy}" r="10" fill="${activeColor}" stroke="#fffdf7" stroke-width="3"/>
+      <text x="${ux}" y="${uy-26}" text-anchor="middle" font-family="JetBrains Mono, Spline Sans Mono, SFMono-Regular, monospace" font-size="13" fill="#16191E" letter-spacing=".08em" font-weight="700">YOU</text>
+    </g>`) : ''}
+  </svg>`;
 }
 
 /* ---------- wire up tooltips on a host ---------- */
@@ -799,18 +958,71 @@ function wireTips(host, tip){
 /* ---------- state ---------- */
 const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 let idx=0;
-const answers = QUESTIONS.map(q=> q.t==='slider'?0:null);
+let activeQuestions = buildQuestionRun();
+let answers = [];
+
+function shuffled(items){
+  const copy=[...items];
+  for(let i=copy.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [copy[i],copy[j]]=[copy[j],copy[i]];
+  }
+  return copy;
+}
+
+function buildQuestionRun(){
+  const sliders=QUESTIONS.filter(q=>q.t==='slider');
+  const agree=QUESTIONS.filter(q=>q.t==='agree');
+  return [...sliders,...shuffled(agree)];
+}
+
+function resetAnswers(){
+  answers = activeQuestions.map(()=>null);
+}
+resetAnswers();
 
 const $=id=>document.getElementById(id);
 const intro=$('intro'), quiz=$('quiz'), results=$('results');
+const resultDrawer=$('resultDrawer');
+
+function openLead(){
+  closeDrawer();
+  document.body.classList.add('lead-open');
+  setTimeout(()=>$('leadName')?.focus(),0);
+}
+
+function closeLead(){
+  document.body.classList.remove('lead-open');
+}
+
+function openDrawer(){
+  document.body.classList.add('drawer-open');
+  resultDrawer?.setAttribute('aria-hidden','false');
+}
+
+function closeDrawer(){
+  document.body.classList.remove('drawer-open');
+  resultDrawer?.setAttribute('aria-hidden','true');
+}
 
 // render intro chart
-$('chartHost').innerHTML=buildChart(false);
-$('quizMapHost').innerHTML=buildChart(false);
+$('chartHost').innerHTML=buildFoundationMap();
+$('quizMapHost').innerHTML=buildFoundationMap();
 wireTips($('chartHost'), $('tip'));
 
-$('startBtn').onclick=()=>{ show(quiz); idx=0; renderQ(); };
+$('startBtn').onclick=()=>{ activeQuestions=buildQuestionRun(); resetAnswers(); show(quiz); idx=0; renderQ(); };
 $('againBtn').onclick=()=>resetToIntro(true);
+$('drawerBtn').onclick=openDrawer;
+$('drawerClose').onclick=closeDrawer;
+$('drawerBackdrop').onclick=closeDrawer;
+$('leadClose').onclick=closeLead;
+$('leadBackdrop').onclick=closeLead;
+document.querySelectorAll('.drawer-tab').forEach(tab=>{
+  tab.onclick=()=>{
+    document.querySelectorAll('.drawer-tab').forEach(t=>t.classList.toggle('active',t===tab));
+    document.querySelectorAll('.drawer-pane').forEach(p=>p.classList.toggle('active',p.id===tab.dataset.pane));
+  };
+});
 $('compareBtn').onclick=()=>{
   const host=$('chartHost2');
   host.classList.toggle('compare-on');
@@ -818,7 +1030,8 @@ $('compareBtn').onclick=()=>{
 };
 $('backBtn').onclick=()=>{ if(idx>0){idx--; renderQ();} else show(intro); };
 $('nextBtn').onclick=()=>{
-  if(idx<QUESTIONS.length-1){ idx++; renderQ(); } else finish();
+  if(answers[idx]==null){ setNextAvailability(); return; }
+  if(idx<activeQuestions.length-1){ idx++; renderQ(); } else finish();
 };
 $('leadForm').onsubmit=async e=>{
   e.preventDefault();
@@ -871,12 +1084,14 @@ function show(panel, scroll=true){
 }
 
 function resetToIntro(scroll=false){
-  answers.forEach((_,i)=>answers[i]=QUESTIONS[i].t==='slider'?0:null);
+  closeDrawer();
+  resetAnswers();
   idx=0;
   latestResultPayload=null;
   $('prog').style.width='0%';
   $('qbody').innerHTML='';
   $('chartHost2').innerHTML='';
+  $('resultTray').innerHTML='';
   $('verdict').innerHTML='';
   $('leadForm').reset();
   $('leadForm').classList.remove('sent');
@@ -887,20 +1102,27 @@ function resetToIntro(scroll=false){
 
 window.addEventListener('pageshow',()=>resetToIntro(false));
 
+function setNextAvailability(){
+  const hasAnswer=answers[idx]!=null;
+  $('nextBtn').disabled=!hasAnswer;
+  $('nextBtn').setAttribute('aria-disabled', String(!hasAnswer));
+}
+
 function renderQ(){
-  const q=QUESTIONS[idx];
-  $('prog').style.width = ((idx)/(QUESTIONS.length))*100 + '%';
-  $('qcount').textContent=`Question ${idx+1} of ${QUESTIONS.length}`;
+  const q=activeQuestions[idx];
+  $('prog').style.width = ((idx)/(activeQuestions.length))*100 + '%';
+  $('qcount').textContent=`Question ${idx+1} of ${activeQuestions.length}`;
   $('qsect').textContent=q.sect;
   const body=$('qbody');
   if(q.t==='slider'){
     $('qtext').textContent="Which statement is closer to your view?";
     body.innerHTML=`
       <div class="poles"><div>${q.left}</div><div>${q.right}</div></div>
-      <input type="range" min="-100" max="100" value="${answers[idx]*100}" id="sl" aria-label="slider between the two statements">
+      <input type="range" min="-100" max="100" value="${answers[idx]==null?0:answers[idx]*100}" id="sl" aria-label="slider between the two statements">
       <div class="scaleticks"><span>neither / both</span></div>`;
-    $('sl').oninput=e=>{ answers[idx]=(+e.target.value)/100; };
-    $('nextBtn').textContent = idx===QUESTIONS.length-1?'See results':'Next';
+    $('sl').oninput=e=>{ answers[idx]=(+e.target.value)/100; setNextAvailability(); };
+    $('sl').onchange=e=>{ answers[idx]=(+e.target.value)/100; setNextAvailability(); };
+    $('nextBtn').textContent = idx===activeQuestions.length-1?'See results':'Next';
   } else {
     $('qtext').textContent=q.text;
     const labels=['Strongly\ndisagree','','','Neutral','','','Strongly\nagree'];
@@ -909,57 +1131,78 @@ function renderQ(){
     b+='</div><div class="agreelabels"><span>Strongly disagree</span><span>Neutral</span><span>Strongly agree</span></div>';
     body.innerHTML=b;
     body.querySelectorAll('.agree button').forEach(btn=>{
-      btn.onclick=()=>{ answers[idx]=+btn.dataset.v; body.querySelectorAll('.agree button').forEach(x=>x.classList.remove('sel')); btn.classList.add('sel'); };
+      btn.onclick=()=>{ answers[idx]=+btn.dataset.v; body.querySelectorAll('.agree button').forEach(x=>x.classList.remove('sel')); btn.classList.add('sel'); setNextAvailability(); };
     });
-    $('nextBtn').textContent = idx===QUESTIONS.length-1?'See results':'Next';
+    $('nextBtn').textContent = idx===activeQuestions.length-1?'See results':'Next';
   }
+  setNextAvailability();
 }
 
 /* ---------- scoring ---------- */
+function clamp01(v){ return Math.max(0, Math.min(1, v)); }
+function mean(a){ return a.reduce((s,x)=>s+x,0)/a.length; }
+
+// Single source of truth for nihilism. `gate` scales the score (graded doubt);
+// `rejectsFrame` is the hard "steps off the map" cutoff used for Void / ALIENATED.
+function nihilState(nih){
+  return {
+    rejectsFrame: nih>=6,
+    gate: nih>=6 ? 0 : nih>=5 ? 0.35 : nih>=4.5 ? 0.65 : 1
+  };
+}
+
 function score(){
-  const mean=a=>a.reduce((s,x)=>s+x,0)/a.length;
-  const LE=[],ND=[],cardKey={CI:[],ME:[],RP:[],FE:[]},cardRaw=[],NIH=[];
-  QUESTIONS.forEach((q,i)=>{
+  const LE=[],ND=[],cardKey={CI:[],ME:[],RP:[],FE:[]},NIH=[];
+  activeQuestions.forEach((q,i)=>{
     if(q.t==='slider'){
       const v=answers[i];
       if(q.axis==='LE') LE.push(q.lp==='L'? v : -v);   // X: −Liberty .. +Equality
       else ND.push(q.lp==='N'? -v : v);                // Y: +National .. −Democratic (already signed)
     }
     else if(q.cardinal==='NIHIL'){ NIH.push(answers[i]==null?4:answers[i]); }
-    else { const raw=answers[i]==null?4:answers[i]; cardKey[q.cardinal].push(q.rev?8-raw:raw); cardRaw.push(raw); }
+    else { const raw=answers[i]==null?4:answers[i]; cardKey[q.cardinal].push(q.rev?8-raw:raw); }
   });
   const X=mean(LE);
   const Y=mean(ND);
   const cardScore={}; Object.keys(cardKey).forEach(k=>cardScore[k]=mean(cardKey[k]));
   const cardinalZ={}; Object.keys(cardScore).forEach(k=>cardinalZ[k]=(cardScore[k]-4)/3);
-  const cardinalAdherence=mean(Object.values(cardinalZ));
+  const cardinalAlignment=mean(Object.values(cardinalZ));
+  const cardinalLinear=clamp01((cardinalAlignment+1)/2);
+  const cardinalCurved=Math.pow(cardinalLinear,1.8);
+  const cardinalX=(cardScore.ME-cardScore.CI)/6;
+  const cardinalY=(cardScore.RP-cardScore.FE)/6;
   // dominant / weakest attachment
   const ranked=Object.keys(cardScore).sort((a,b)=>cardScore[b]-cardScore[a]);
   const dominant=ranked[0], weakest=ranked[ranked.length-1];
-  // engagement: distance from neutral across all cardinal items, RAW (0..1)
-  const engagement=mean(cardRaw.map(v=>Math.abs(v-4)/3));
-  // Nihilism acts as a radial penalty: no effect through mean 2,
-  // gentle exponential push outward from 2 to under 6, dead-center void at 6+.
   const nih=mean(NIH);
   const nihil=Math.max(0,(nih-4)/3);
-  const nihilT=Math.max(0, Math.min(1, (nih-2)/4));
-  const nihilPenalty=1 + 0.45 * Math.pow(nihilT, 2);
-  // geometry: raw radius/bearing, then radius adjusted by cardinal adherence.
-  const R=Math.hypot(X,Y), bearing=Math.atan2(X,Y);
-  const cardinalAdjustedR = cardinalAdherence >= 0 ? R/(1+cardinalAdherence) : R*(1+Math.abs(cardinalAdherence));
-  const adjustedR = Math.min(cardinalAdjustedR * nihilPenalty, Math.SQRT2);
-  const adjX = adjustedR * Math.sin(bearing);
-  const adjY = adjustedR * Math.cos(bearing);
+  const frame=nihilState(nih);
+  const nihilGate=frame.gate, rejectsFrame=frame.rejectsFrame;
+  // Differentials locate you; cardinal wholeness scores you.
+  const adjX=(X+cardinalX)/2;
+  const adjY=(Y+cardinalY)/2;
+  const adjustedR=Math.min(Math.hypot(adjX,adjY), Math.SQRT2);
   const rnorm=adjustedR/Math.SQRT2;
-  return {X,Y,adjX,adjY,cardScore,cardinalZ,cardinalAdherence,dominant,weakest,engagement,nihil,nihilMean:nih,nihilPenalty,R,bearing,cardinalAdjustedR,adjustedR,rnorm};
+  const centerScore=1-rnorm;
+  return {X,Y,adjX,adjY,cardScore,cardinalZ,cardinalAlignment,cardinalLinear,cardinalCurved,cardinalX,cardinalY,dominant,weakest,nihil,nihilMean:nih,nihilGate,rejectsFrame,adjustedR,rnorm,centerScore};
 }
 
 /* ---------- verdict ---------- */
-function quadrant(X,Y){
-  if(X<0&&Y>=0) return {name:"Ordered Liberty", note:"freedom anchored in a strong, common nation"};
-  if(X>=0&&Y>=0) return {name:"National Equality", note:"a national purpose marshaled toward fairness"};
-  if(X<0&&Y<0) return {name:"Jeffersonian Liberty", note:"individual freedom held close to the people and the local"};
-  return {name:"Democratic Equality", note:"equality pressed from the grassroots up"};
+function typology(s){
+  // Family is read from the same blended position that places the dot, so label and map agree.
+  const xKey = s.adjX<0?'CI':'ME';
+  const yKey = s.adjY>=0?'RP':'FE';
+  const key=`${xKey}_${yKey}`;
+  const types={
+    CI_RP:{name:"Constitutional Liberty", extreme:"Managerial Liberty", note:"liberty disciplined by constitutional order, civic obligation, and institutional competence"},
+    CI_FE:{name:"Local Liberty", extreme:"Populist Liberty", note:"liberty protected by localism, dispersed power, and civic/community self-rule"},
+    ME_RP:{name:"Civic Equality", extreme:"State Equality", note:"equality secured through law, institutions, national purpose, and shared citizenship"},
+    ME_FE:{name:"Democratic Equality", extreme:"Communal Equality", note:"equality pressed through participation, local democracy, and popular voice"}
+  };
+  const base=types[key] || types.ME_RP;
+  const fragmented=s.cardinalCurved<.42 || s.centerScore<.45;
+  const extreme=s.rnorm>.55;
+  return {...base,key,xKey,yKey,fragmented,extreme,label:extreme?base.extreme:fragmented?`Fragmented ${base.name}`:base.name};
 }
 
 function nearestMapAnchorByLocation(x,y){
@@ -980,51 +1223,137 @@ function nearestMapAnchorByLocation(x,y){
 }
 
 function americanIdeologyScore(s){
-  if(s.nihilMean>=6){
+  if(s.rejectsFrame){
     return {score:0,label:"ALIENATED",description:"What American Ideology?"};
   }
-  const score=Math.max(1, Math.min(100, Math.round((1-Math.min(s.rnorm,1))*100)));
+  // Wholeness is a necessary factor (not just averaged): no attachment -> low score even if centered.
+  // Centeredness is read from the blended position (same point the dot is drawn from).
+  const score=Math.round(100*clamp01(s.cardinalCurved*(0.35+0.65*s.centerScore)*s.nihilGate));
   if(score>=70) return {score,label:"AMERICAN IDEOLOGUE",description:"Strongly aligned with the American Ideology."};
   if(score>=56) return {score,label:"AMERICAN PATRIOT",description:"You believe in what America stands for."};
   if(score>=20) return {score,label:"AMERICAN SKEPTIC",description:"Skeptical of the American Ideology."};
   return {score,label:"DETACHED REJECTOR",description:"You reject the American Ideology."};
 }
 
+function displayPointForScore(s, aiScore){
+  // The dot reflects the user's actual blended position (sliders + cardinal differentials),
+  // so the plotted point, the family label, the lit wedge and the nearest kin all agree.
+  const r=Math.min(Math.hypot(s.adjX,s.adjY), Math.SQRT2);
+  return {x:s.adjX, y:s.adjY, r};
+}
+
+function wireOutputTray(){
+  document.querySelectorAll('.output-tab').forEach(tab=>{
+    tab.onclick=()=>{
+      const tray=tab.closest('.output-tray');
+      tray.querySelectorAll('.output-tab').forEach(t=>t.classList.toggle('active',t===tab));
+      tray.querySelectorAll('.output-pane').forEach(p=>p.classList.toggle('active',p.id===tab.dataset.tab));
+      if(tab.dataset.tab!=='outputLegend') clearOutputFocus();
+    };
+  });
+}
+
+const focusCopy = {
+  philosophical:{kicker:"Dimension",title:"Philosophical Tension",related:["ci","me","liberty","equality"],body:"The philosophical tension is the American argument over how liberty and equality can be held together. Liberty without equality becomes license or privilege; equality without liberty becomes coercion or managed sameness. The American Ideology does not resolve this tension by choosing one side. It asks whether liberty and equality can discipline, ennoble, and limit one another."},
+  structural:{kicker:"Dimension",title:"Structural Tension",related:["rp","fe","national","democratic"],body:"The structural tension is the American argument over where legitimate authority lives. The National Idea gives the country coherence, institutions, and common purpose. The Democratic Idea keeps power answerable to the people, dispersed through states, local communities, and civic participation. The American Ideology depends on holding both: a nation strong enough to act, and a people free enough to govern themselves."},
+  liberty:{kicker:"Tensional idea",title:"The Philosophical Axis: Liberty and Equality",related:["ci","liberty","libertarianism"],body:"At the heart of the American political ideology lies a dynamic tension between liberty and equality, two principles deeply enshrined in the founding documents and the very fabric of the nation's identity. Liberty, with its emphasis on individual freedom and personal autonomy, stands as a beacon of self-determination. Equality, on the other hand, underscores the collective commitment to ensuring that all individuals are treated with equal respect and granted equal opportunities. This interplay between the individual and the collective, the one and the many, forms the core tension that has driven American political and philosophical evolution, constantly challenging the nation to find a balance between these foundational ideals."},
+  equality:{kicker:"Tensional idea",title:"The Philosophical Axis: Liberty and Equality",related:["me","equality","equity"],body:"At the heart of the American political ideology lies a dynamic tension between liberty and equality, two principles deeply enshrined in the founding documents and the very fabric of the nation's identity. Liberty, with its emphasis on individual freedom and personal autonomy, stands as a beacon of self-determination. Equality, on the other hand, underscores the collective commitment to ensuring that all individuals are treated with equal respect and granted equal opportunities. This interplay between the individual and the collective, the one and the many, forms the core tension that has driven American political and philosophical evolution, constantly challenging the nation to find a balance between these foundational ideals."},
+  national:{kicker:"Tensional idea",title:"The Structural Axis: The Democratic and National Ideas",related:["rp","national","authoritarianism"],body:"Where the Declaration provides the philosophical blueprint of the American Ideology, the Constitution provides its structural form--establishing the means by which those moral ends are secured. This tension was first fully theorized by Herbert Croly in The Promise of American Life, which framed American political development as the ongoing interplay between the Democratic Idea--localism, participation, and popular sovereignty--and the National Idea--centralized authority, institutional coherence, and common purpose. Neither tradition is sufficient on its own; the American Ideology arises from the creative tension between them, a permanent dialectic that channels local energies into national purpose and national commitments into local practice."},
+  democratic:{kicker:"Tensional idea",title:"The Structural Axis: The Democratic and National Ideas",related:["fe","democratic","majoritarianism"],body:"Where the Declaration provides the philosophical blueprint of the American Ideology, the Constitution provides its structural form--establishing the means by which those moral ends are secured. This tension was first fully theorized by Herbert Croly in The Promise of American Life, which framed American political development as the ongoing interplay between the Democratic Idea--localism, participation, and popular sovereignty--and the National Idea--centralized authority, institutional coherence, and common purpose. Neither tradition is sufficient on its own; the American Ideology arises from the creative tension between them, a permanent dialectic that channels local energies into national purpose and national commitments into local practice."},
+  ci:{kicker:CARDINAL_CONTENT.CI.kind,title:CARDINAL_CONTENT.CI.title,related:["ci","liberty"],body:CARDINAL_CONTENT.CI.body},
+  me:{kicker:CARDINAL_CONTENT.ME.kind,title:CARDINAL_CONTENT.ME.title,related:["me","equality"],body:CARDINAL_CONTENT.ME.body},
+  rp:{kicker:CARDINAL_CONTENT.RP.kind,title:CARDINAL_CONTENT.RP.title,related:["rp","national"],body:CARDINAL_CONTENT.RP.body},
+  fe:{kicker:CARDINAL_CONTENT.FE.kind,title:CARDINAL_CONTENT.FE.title,related:["fe","democratic"],body:CARDINAL_CONTENT.FE.body},
+  authoritarianism:{kicker:TENDENCY_CONTENT.AUTH.kind,title:TENDENCY_CONTENT.AUTH.title,related:["rp","national","authoritarianism"],body:TENDENCY_CONTENT.AUTH.body},
+  majoritarianism:{kicker:TENDENCY_CONTENT.MAJ.kind,title:TENDENCY_CONTENT.MAJ.title,related:["fe","democratic","majoritarianism"],body:TENDENCY_CONTENT.MAJ.body},
+  libertarianism:{kicker:TENDENCY_CONTENT.LIB.kind,title:TENDENCY_CONTENT.LIB.title,related:["ci","liberty","libertarianism"],body:TENDENCY_CONTENT.LIB.body},
+  equity:{kicker:TENDENCY_CONTENT.EQ.kind,title:TENDENCY_CONTENT.EQ.title,related:["me","equality","equity"],body:TENDENCY_CONTENT.EQ.body},
+  void:{kicker:"Center",title:"Ideological Void",related:["void"],body:"The ideological void sits at the center for the opposite reason the synthesized core does. The core holds every value at once and balances out; the void holds none of them and has nothing to balance. It reads the whole frame as power, exhaustion, or alienation. It is not a low score on the map. It is a step off it."}
+};
+
+function setOutputFocus(key){
+  const item=focusCopy[key];
+  if(!item) return;
+  const related=new Set([key,...(item.related||[])]);
+  document.querySelectorAll('.output-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='outputLegend'));
+  document.querySelectorAll('.output-pane').forEach(p=>p.classList.toggle('active',p.id==='outputLegend'));
+  document.querySelectorAll('[data-focus]').forEach(el=>{
+    const on=related.has(el.dataset.focus);
+    el.classList.toggle('selected',on);
+    el.classList.toggle('dimmed',!on);
+  });
+  document.querySelector('.output-board')?.classList.add('folded');
+  const kicker=document.getElementById('outputContextKicker');
+  if(!kicker) return;
+  kicker.textContent=item.kicker;
+  document.getElementById('outputContextTitle').textContent=item.title;
+  document.getElementById('outputContextBody').textContent=item.body;
+  document.getElementById('outputContext').classList.add('open');
+}
+
+function clearOutputFocus(){
+  document.querySelectorAll('[data-focus]').forEach(el=>el.classList.remove('selected','dimmed'));
+  document.querySelector('.output-board')?.classList.remove('folded');
+  document.getElementById('outputContext')?.classList.remove('open');
+}
+
+function wireLegendFocus(){
+  document.querySelectorAll('[data-focus]').forEach(el=>{
+    el.onclick=event=>{ event.stopPropagation(); setOutputFocus(el.dataset.focus); };
+  });
+  ['chartHost2','resultTray'].forEach(id=>{
+    const root=document.getElementById(id);
+    if(!root) return;
+    root.onclick=event=>{
+      const focusEl=event.target.closest?.('[data-focus]');
+      if(!focusEl || !root.contains(focusEl)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      setOutputFocus(focusEl.dataset.focus);
+    };
+  });
+  const close=document.getElementById('outputContextClose');
+  if(close) close.onclick=event=>{event.stopPropagation(); clearOutputFocus();};
+}
+
 function finish(){
   const s=score();
   const aiScore=americanIdeologyScore(s);
+  const type=typology(s);
+  let displayPoint=displayPointForScore(s, aiScore);
   // outcome logic — the three-instrument gate
   let outcome, title, titleCls='', body;
-  const ENGAGED=s.engagement>0.42, CENTRAL=s.rnorm<0.30, NIHIL=s.nihilMean>=6;
+  const WHOLE=s.cardinalCurved>.60, CENTRAL=(displayPoint.r/Math.SQRT2)<0.30, NIHIL=s.rejectsFrame;
 
-  // Place the mark using the cardinal-adjusted radius/bearing model.
-  let markX=s.adjX, markY=s.adjY;
+  // Place the mark using the blended tension/cardinal-differential model.
+  let markX=displayPoint.x, markY=displayPoint.y;
 
   if(NIHIL){
     outcome='void'; titleCls='void'; title="The Center Void";
     markX = 0; markY = 0;
     body=`You sit where the synthesized core sits — at the center — but for the opposite reason. The core holds every value at once and balances out; the void holds none of them and has nothing to balance. Your answers read the whole frame as power, or as something that no longer touches you. That is not a low score on the map; it is a step off it. <b>Aaron Burr</b> keeps this seat: ambition, or exhaustion, without a creed.`;
-  } else if(CENTRAL && ENGAGED){
+  } else if(CENTRAL && WHOLE){
     outcome='core'; titleCls='core'; title="The Synthesized Core";
     body=`You land at the center the hard way: not by having no opinions, but by holding the opposing ones at full strength and refusing to collapse to a pole. Liberty with equality, the nation with the people. This is the rare and demanding interior of the creed — the seat of <b>Lincoln</b>, <b>Washington</b>, and <b>Madison</b>, who held the tensions rather than resolving them. Your strongest attachment runs to <b>${CARD_NAMES[s.dominant]}</b>.`;
-  } else if(CENTRAL && !ENGAGED){
+  } else if(CENTRAL && !WHOLE){
     outcome='apathetic'; title="The Quiet Middle";
     body=`You sit near the center, but lightly — without the strong attachments that mark the synthesized core, and without the rejection that marks the void. The forced-choice center cannot tell a held balance from an unformed one; your answers point to the latter. There is room here to decide what you actually hold. Your nearest leaning, faint as it is, runs to <b>${CARD_NAMES[s.dominant]}</b>.`;
   } else {
     outcome='placed';
-    const q=quadrant(markX,markY);
-    title=q.name;
-    body=`You are pulled toward a pole — ${q.note}. That is the ordinary condition of political life: most people choose a side of each tension rather than holding both. The value you reach for first is <b>${CARD_NAMES[s.dominant]}</b>; the one you neglect is <b>${CARD_NAMES[s.weakest]}</b>.`;
+    title=type.label;
+    body=`Your result falls in the <b>${type.name}</b> family: ${type.note}. The map location comes from both your tension sliders and your cardinal-value differentials. ${type.fragmented?`The score reads as fragmented because one or more cardinal syntheses are polarized rather than held together. `:''}The value you reach for first is <b>${CARD_NAMES[s.dominant]}</b>; the one you neglect is <b>${CARD_NAMES[s.weakest]}</b>.`;
   }
 
   // nearest avatar (exclude the void unless void outcome)
   const pool=AVATARS.filter(a=> outcome==='void' ? a.void : !a.void);
   let near=pool[0], best=1e9;
   pool.forEach(a=>{ const d=Math.hypot(a.x-markX,a.y-markY); if(d<best){best=d;near=a;} });
+  let opposite=pool[0], far=-1;
+  pool.forEach(a=>{ const d=Math.hypot(a.x-markX,a.y-markY); if(d>far){far=d;opposite=a;} });
 
   // render chart with user
   const nearestMapAnchor = nearestMapAnchorByLocation(markX, markY);
-  $('chartHost2').innerHTML=buildChart(true,{x:markX,y:markY,reduce,dominant:nearestMapAnchor,aiScore});
+  $('chartHost2').innerHTML=buildFoundationMap(true,{x:markX,y:markY,reduce,dominant:nearestMapAnchor,cardinalDominant:s.dominant,aiScore});
   $('chartHost2').classList.remove('compare-on');
   $('compareBtn').textContent='How do you compare';
   wireTips($('chartHost2'), $('tip2'));
@@ -1040,24 +1369,159 @@ function finish(){
     taxonomyDescription:aiScore.description,
     resultTitle:title,
     outcome,
+    typology:type.name,
+    typologyLabel:type.label,
+    typologyExtreme:type.extreme,
+    typologyKey:type.key,
     nearestHistoricalFigure:near.n,
     nearestHistoricalFigureNote:near.d,
     closestMapPosition:nearestMapAnchor,
-    closestMapPositionName:MAP_CONTENT[nearestMapAnchor]?.title || nearestMapAnchor,
+    closestMapPositionName:type.label,
     strongestCardinalValue:s.dominant,
     strongestCardinalValueName:CARD_NAMES[s.dominant],
     weakestCardinalValue:s.weakest,
     weakestCardinalValueName:CARD_NAMES[s.weakest],
     cardinalProfile:sortedCards.map(c=>({key:c,name:CARD_NAMES[c],score:Number(s.cardScore[c].toFixed(3))})),
     coordinates:{x:Number(markX.toFixed(4)),y:Number(markY.toFixed(4))},
+    analyticCoordinates:{x:Number(s.adjX.toFixed(4)),y:Number(s.adjY.toFixed(4))},
+    sliderCoordinates:{x:Number(s.X.toFixed(4)),y:Number(s.Y.toFixed(4))},
+    cardinalVector:{x:Number(s.cardinalX.toFixed(4)),y:Number(s.cardinalY.toFixed(4))},
     axis:{liberty:lib,equality:eq,national:nat,democratic:dem},
     nihilismMean:Number(s.nihilMean.toFixed(3)),
-    cardinalAdherence:Number(s.cardinalAdherence.toFixed(3)),
-    adjustedRadius:Number(s.adjustedR.toFixed(3))
+    nihilismGate:Number(s.nihilGate.toFixed(3)),
+    cardinalAlignment:Number(s.cardinalAlignment.toFixed(3)),
+    cardinalCurved:Number(s.cardinalCurved.toFixed(3)),
+    centerScore:Number(s.centerScore.toFixed(3)),
+    adjustedRadius:Number(s.adjustedR.toFixed(3)),
+    displayRadius:Number(displayPoint.r.toFixed(3))
   };
   $('leadForm').reset();
   $('leadForm').classList.remove('sent');
   $('leadStatus').textContent='';
+  const cardColors={CI:"#ff3737",ME:"#740505",RP:"#0081cc",FE:"#003858"};
+  $('drawerTitle').textContent=title;
+  $('drawerInterpretation').innerHTML=`
+    <div class="drawer-grid">
+      <div class="drawer-stat"><div class="k">Score</div><div class="v">${aiScore.score} / 100</div></div>
+      <div class="drawer-stat"><div class="k">Taxonomy</div><div class="v">${displayTaxonomy(aiScore.label)}</div></div>
+      <div class="drawer-stat"><div class="k">Typology</div><div class="v">${type.label}</div></div>
+      <div class="drawer-stat"><div class="k">Strongest value</div><div class="v">${CARD_NAMES[s.dominant]}</div></div>
+      <div class="drawer-stat"><div class="k">Nearest kin</div><div class="v">${near.n}</div></div>
+    </div>
+    <p>${body}</p>
+    <p><b>Nearest historical kin:</b> ${near.n} - ${near.d}</p>
+  `;
+  $('drawerLayers').innerHTML=`
+    <div class="drawer-grid">
+      <div class="drawer-stat"><div class="k">Nearest kin</div><div class="v">${near.n}</div></div>
+      <div class="drawer-stat"><div class="k">Opposite kin</div><div class="v">${opposite.n}</div></div>
+      <div class="drawer-stat"><div class="k">Coordinates</div><div class="v">${markX.toFixed(2)}, ${markY.toFixed(2)}</div></div>
+      <div class="drawer-stat"><div class="k">Analytic point</div><div class="v">${s.adjX.toFixed(2)}, ${s.adjY.toFixed(2)}</div></div>
+      <div class="drawer-stat"><div class="k">Cardinal vector</div><div class="v">${s.cardinalX.toFixed(2)}, ${s.cardinalY.toFixed(2)}</div></div>
+      <div class="drawer-stat"><div class="k">Wholeness curve</div><div class="v">${Math.round(s.cardinalCurved*100)}%</div></div>
+    </div>
+    <p><b>${near.n}:</b> ${near.d}</p>
+    <p><b>${opposite.n}:</b> ${opposite.d}</p>
+    <p><b>Top cardinal value:</b> ${CARD_NAMES[s.dominant]}. The highlighted wedge is shown at full color; the others fade so the result has a clear focal value.</p>
+    <div class="drawer-list">
+      ${sortedCards.map(c=>`<div class="drawer-row"><span class="drawer-swatch" style="background:${cardColors[c]};opacity:${c===s.dominant?1:.35}"></span><span>${CARD_NAMES[c]}${c===s.dominant?' - highlighted':''}</span></div>`).join('')}
+    </div>
+    <div class="qnav" style="margin-top:18px;gap:10px;flex-wrap:wrap">
+      <button class="btn" type="button" onclick="openLead()">Compare to Peers</button>
+      <button class="btn ghost" type="button" onclick="openLead()">Learn More</button>
+    </div>
+  `;
+  $('resultTray').innerHTML=`
+    <section class="output-tray" aria-label="Result tray">
+      <div class="output-tabs">
+        <button class="output-tab" type="button" data-tab="outputLegend">Legend</button>
+        <button class="output-tab active" type="button" data-tab="outputResult">Result</button>
+        <button class="output-tab" type="button" data-tab="outputComparison">Comparison</button>
+      </div>
+      <div class="output-pane" id="outputLegend">
+        <div class="legend-board output-board">
+          <div class="legend-band dimension">
+            <div class="legend-head">Dimension</div>
+            <div class="dimension-grid">
+              <div class="dimension-item">
+                <div class="arrow-h legend-focus" data-focus="philosophical"></div>
+                <div class="dimension-label phil legend-focus" data-focus="philosophical">Philosophical Tension</div>
+              </div>
+              <div class="dimension-item">
+                <div class="arrow-v legend-focus" data-focus="structural"></div>
+                <div class="dimension-label struct legend-focus" data-focus="structural">Structural Tension</div>
+              </div>
+            </div>
+          </div>
+          <div class="legend-band ideas-grid">
+            <div class="legend-head">Tensional<br>Ideas</div>
+            <div class="idea-pair phil-text">
+              <div class="legend-focus" data-focus="liberty">Liberty</div>
+              <div class="legend-focus" data-focus="equality">Equality</div>
+            </div>
+            <div class="idea-pair struct-text">
+              <div class="legend-focus" data-focus="national">National Idea</div>
+              <div class="legend-focus" data-focus="democratic">Democratic Idea</div>
+            </div>
+          </div>
+          <div class="legend-band cardinal-grid">
+            <div class="legend-head">Cardinal<br>Values</div>
+            <div class="legend-list">
+              <div class="value-box ci" data-focus="ci">Communitarian<br>Individualism</div>
+              <div class="value-box me" data-focus="me">Moral Equality</div>
+            </div>
+            <div class="legend-list">
+              <div class="value-box rp" data-focus="rp">Republicanism</div>
+              <div class="value-box fe" data-focus="fe">Federalism</div>
+            </div>
+          </div>
+          <div class="void-band legend-focus" data-focus="void">
+            <div class="legend-head">Ideological<br>Void</div>
+            <div class="void-dot" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="output-context" id="outputContext" aria-live="polite">
+          <p class="legend-return">Legend hidden behind this card</p>
+          <div class="output-context-head">
+            <div>
+              <div class="output-context-kicker" id="outputContextKicker">Map focus</div>
+              <div class="output-context-title" id="outputContextTitle"></div>
+            </div>
+            <button class="output-context-close" id="outputContextClose" type="button" aria-label="Show legend">X</button>
+          </div>
+          <p class="output-context-body" id="outputContextBody"></p>
+        </div>
+        <button class="output-learn" type="button" onclick="openLead()">Learn More</button>
+      </div>
+      <div class="output-pane active" id="outputResult">
+        <div class="output-peek">
+          <div class="output-score">${aiScore.score}</div>
+          <div><div class="output-label">${displayTaxonomy(aiScore.label)}</div><h2 class="output-title">${title}</h2></div>
+        </div>
+        <p class="output-copy">${body}</p>
+        <p><button class="text-link" type="button" onclick="openLead()">Your coordinates</button></p>
+        <div class="output-grid">
+          <div class="output-card"><div class="output-label">Top cardinal value</div><div class="v">${CARD_NAMES[s.dominant]}</div></div>
+          <div class="output-card"><div class="output-label">Map anchor</div><div class="v">${type.label}</div></div>
+        </div>
+        <button class="output-learn" type="button" onclick="openLead()">Learn More</button>
+      </div>
+      <div class="output-pane" id="outputComparison">
+        <p class="output-copy">Use comparison to place your result against historical kin and, with an email, peers who have taken the quiz.</p>
+        <div class="output-grid">
+          <div class="output-card"><div class="output-label">Nearest kin</div><div class="v">${near.n}</div></div>
+          <div class="output-card"><div class="output-label">Opposite kin</div><div class="v">${opposite.n}</div></div>
+          <div class="output-card" style="grid-column:1/-1"><div class="output-label">Compare to peers</div><div class="v">Benchmarks against other survey takers</div></div>
+        </div>
+        <div class="comparison-actions">
+          <button class="output-learn" type="button" onclick="openLead()">Compare to Peers</button>
+          <button class="output-learn" type="button" onclick="openLead()">Learn More</button>
+        </div>
+      </div>
+    </section>
+  `;
+  wireOutputTray();
+  wireLegendFocus();
 
   $('verdict').innerHTML=`
     <p class="vkicker">Your reading</p>
@@ -1074,6 +1538,7 @@ function finish(){
 
   $('prog').style.width='100%';
   show(results);
+  closeDrawer();
 }
 </script>
 
