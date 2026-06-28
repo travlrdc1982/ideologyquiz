@@ -1214,7 +1214,7 @@ function typology(s){
   const base=types[key] || types.ME_RP;
   const extreme=s.D>.55;                 // fallen far toward a pole
   const fragmented=s.D>.40 && s.D<=.55;  // a notable but not extreme fall
-  return {...base,key,xKey,yKey,fragmented,extreme,label:extreme?base.extreme:fragmented?`Fragmented ${base.name}`:base.name};
+  return {...base,key,xKey,yKey,fragmented,extreme,label:extreme?base.extreme:base.name};
 }
 
 function nearestMapAnchorByLocation(x,y){
@@ -1509,9 +1509,8 @@ function finish(){
       <div class="output-pane active" id="outputResult">
         <div class="output-peek">
           <div class="output-score">${aiScore.score}</div>
-          <div><h2 class="output-title">${displayTaxonomy(aiScore.label)}</h2><div class="output-fam">${title}</div><p class="output-desc">${aiScore.description}</p></div>
+          <div><h2 class="output-title">${displayTaxonomy(aiScore.label)}</h2><p class="output-desc">${aiScore.description}</p></div>
         </div>
-        <p class="output-copy">${body}</p>
         <p><button class="text-link" type="button" onclick="openLead()">Your coordinates</button></p>
         <div class="output-grid">
           <div class="output-card"><div class="output-label">Top cardinal value</div><div class="v">${CARD_NAMES[reach]}</div></div>
