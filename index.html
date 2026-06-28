@@ -6,7 +6,7 @@
 <title>The American Ideology — Where Do You Fall?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="./index_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --font-primary:"Fraunces",Georgia,serif;
@@ -66,11 +66,10 @@
   .btn.ghost{border-color:var(--line);color:var(--muted)}
   .btn.ghost:hover{border-color:var(--muted);background:transparent;color:var(--text)}
   #startBtn{
-    color:#041f3e;background:var(--gold-bright);border:2px solid #041f3e;
-    box-shadow:0 12px 30px rgba(4,31,62,.18),0 0 0 4px rgba(241,212,134,.32);
-    font-weight:700;
+    color:#041f3e;background:#fff;border:1px solid #fff;
+    box-shadow:0 6px 18px rgba(4,6,15,.28);font-weight:600;
   }
-  #startBtn:hover{background:#fff3bf;color:#041f3e;transform:translateY(-1px)}
+  #startBtn:hover{background:#eef1f6;color:#041f3e;border-color:#eef1f6;transform:translateY(-1px)}
   #intro{position:relative}
   #intro .chart-stage{position:relative}
   .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 auto 12px;max-width:820px;flex-wrap:wrap}
@@ -193,7 +192,7 @@
   .bar span{display:block;height:100%;background:var(--gold)}
   .lead-modal-backdrop{position:fixed;inset:0;background:rgba(4,6,15,.34);opacity:0;pointer-events:none;transition:.18s;z-index:30}
   body.lead-open .lead-modal-backdrop{opacity:1;pointer-events:auto}
-  .lead-card{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(520px,calc(100vw - 28px));z-index:31;background:rgba(250,246,235,.98);border:1px solid rgba(149,25,47,.22);border-radius:6px;box-shadow:0 24px 80px rgba(4,31,62,.24);padding:18px}
+  .lead-card{display:none;position:fixed;left:50%;top:56px;transform:translate(-50%,0);width:min(520px,calc(100vw - 28px));z-index:31;background:rgba(250,246,235,.98);border:1px solid rgba(149,25,47,.22);border-radius:6px;box-shadow:0 24px 80px rgba(4,31,62,.24);padding:18px}
   body.lead-open .lead-card{display:block}
   .lead-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border:1px solid #d4d4ca;background:#fff;color:#041f3e;border-radius:50%;cursor:pointer;font:700 1rem var(--font-mono)}
   .lead-card h3{font-family:var(--font-primary);font-size:1.35rem;line-height:1.15;color:#041f3e;margin:0 0 .35rem}
@@ -212,13 +211,13 @@
   a.src{color:var(--gold)}
   .drawer-backdrop{position:fixed;inset:0;background:rgba(4,6,15,.22);opacity:0;pointer-events:none;transition:.2s;z-index:20}
   .result-drawer{
-    position:fixed;left:50%;right:auto;top:auto;bottom:0;width:min(760px,100vw);height:min(62vh,640px);z-index:21;
-    background:#fbfbf9;color:#16191e;border:1px solid #d9d9d1;border-bottom:0;
-    box-shadow:0 -24px 70px rgba(4,31,62,.22);transform:translate(-50%,104%);
-    transition:transform .24s ease;display:flex;flex-direction:column;
+    position:fixed;left:50%;right:auto;top:56px;bottom:auto;width:min(760px,100vw);height:auto;max-height:640px;z-index:21;
+    background:#fbfbf9;color:#16191e;border:1px solid #d9d9d1;
+    box-shadow:0 24px 70px rgba(4,31,62,.22);transform:translate(-50%,-16px);opacity:0;pointer-events:none;
+    transition:transform .24s ease,opacity .24s ease;display:flex;flex-direction:column;
   }
   body.drawer-open .drawer-backdrop{opacity:1;pointer-events:auto}
-  body.drawer-open .result-drawer{transform:translate(-50%,0)}
+  body.drawer-open .result-drawer{transform:translate(-50%,0);opacity:1;pointer-events:auto}
   .drawer-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:18px 20px;border-bottom:1px solid #e4e4dd}
   .drawer-head:before{content:"";position:absolute;top:8px;left:50%;width:46px;height:4px;border-radius:4px;background:#c9c9bf;transform:translateX(-50%)}
   .drawer-kicker{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:#95192f;margin:0 0 4px}
@@ -366,19 +365,6 @@
     </div>
     <div id="resultTray"></div>
     <div class="verdict" id="verdict"></div>
-    <form class="lead-card" id="leadForm">
-      <button class="lead-close" id="leadClose" type="button" aria-label="Close">X</button>
-      <p class="output-label">Learn More</p>
-      <h3>LEARN MORE</h3>
-      <p>Get your personal American Ideology Index ratings, including coordinate details, and benchmarks against other survey takers.</p>
-      <div class="lead-fields">
-        <input id="leadName" name="name" type="text" autocomplete="name" placeholder="First name">
-        <input id="leadEmail" name="email" type="email" autocomplete="email" placeholder="Email address" required="">
-      </div>
-      <label><input id="leadConsent" type="checkbox" required=""> Send me my result and occasional American Ideology Project updates.</label>
-      <button class="btn" type="submit">Send my result</button>
-      <div class="lead-status" id="leadStatus" aria-live="polite"></div>
-    </form>
     <div class="qnav result-actions">
       <button class="btn" id="drawerBtn" type="button">Read result</button>
       <button class="btn ghost" id="againBtn">Take it again</button>
@@ -389,6 +375,19 @@
 
 </div>
 <div class="lead-modal-backdrop" id="leadBackdrop"></div>
+<form class="lead-card" id="leadForm">
+  <button class="lead-close" id="leadClose" type="button" aria-label="Close">X</button>
+  <p class="output-label">American Ideology Index</p>
+  <h3>LEARN MORE</h3>
+  <p>Get your personal American Ideology Index ratings, including coordinate details, and benchmarks against other survey takers.</p>
+  <div class="lead-fields">
+    <input id="leadName" name="name" type="text" autocomplete="name" placeholder="First name">
+    <input id="leadEmail" name="email" type="email" autocomplete="email" placeholder="Email address" required="">
+  </div>
+  <label><input id="leadConsent" type="checkbox" required=""> Send me my result and occasional American Ideology Project updates.</label>
+  <button class="btn" type="submit">Send my result</button>
+  <div class="lead-status" id="leadStatus" aria-live="polite"></div>
+</form>
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 <aside class="result-drawer" id="resultDrawer" aria-hidden="true" aria-label="Result details">
   <div class="drawer-head">
@@ -417,7 +416,7 @@
 // Add a Wix/Velo, Zapier, Make, Formspree, or CRM webhook URL here when ready.
 // When blank, the form stores a test capture in this browser and emits a message
 // event that a Wix wrapper can listen for.
-const LEAD_ENDPOINT = "/api/lead"
+const LEAD_ENDPOINT = ""   // Wix path: leads flow to Velo via window.parent.postMessage below
 let latestResultPayload = null;
 
 const AVATARS = [
@@ -993,6 +992,7 @@ const resultDrawer=$('resultDrawer');
 function openLead(){
   closeDrawer();
   document.body.classList.add('lead-open');
+  notifyParent('aiq:scrollTop');
   setTimeout(()=>$('leadName')?.focus(),0);
 }
 
@@ -1003,6 +1003,7 @@ function closeLead(){
 function openDrawer(){
   document.body.classList.add('drawer-open');
   resultDrawer?.setAttribute('aria-hidden','false');
+  notifyParent('aiq:scrollTop');
 }
 
 function closeDrawer(){
@@ -1074,7 +1075,7 @@ $('leadForm').onsubmit=async e=>{
       status.textContent='Sent. Check your inbox soon.';
     } else {
       localStorage.setItem("americanIdeologyLeadDraft", JSON.stringify(lead));
-      status.textContent='Saved for testing. Add LEAD_ENDPOINT to send to your CRM.';
+      status.textContent='Sent — check your inbox soon.';
     }
     $('leadForm').classList.add('sent');
   }catch(err){
@@ -1083,10 +1084,28 @@ $('leadForm').onsubmit=async e=>{
   }
 };
 
+/* ---------- embed bridge (Wix / iframe host) ---------- */
+const EMBEDDED = window.parent && window.parent !== window;
+function notifyParent(type, extra){
+  if(!EMBEDDED) return;
+  try{ window.parent.postMessage(Object.assign({source:'americanIdeologyQuiz',type}, extra||{}), '*'); }catch(e){}
+}
+function reportHeight(){
+  notifyParent('aiq:height',{height:Math.ceil(document.documentElement.scrollHeight)});
+}
+if(EMBEDDED){
+  if(window.ResizeObserver){ new ResizeObserver(reportHeight).observe(document.documentElement); }
+  window.addEventListener('load', reportHeight);
+  window.addEventListener('resize', reportHeight);
+  setTimeout(reportHeight, 300);
+}
+
 function show(panel, scroll=true){
   [intro,quiz,results].forEach(p=>p.classList.remove('active'));
   panel.classList.add('active');
   if(scroll) window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
+  notifyParent('aiq:scrollTop');
+  reportHeight();
 }
 
 function resetToIntro(scroll=false){
