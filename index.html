@@ -248,6 +248,7 @@
   .output-score{font-family:var(--font-primary);font-size:2.6rem;line-height:1;color:#041f3e}
   .output-label{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#95192f;margin-bottom:3px}
   .output-title{font-family:var(--font-primary);font-size:1.55rem;line-height:1.05;margin:0;color:#041f3e}
+  .output-fam{font-family:var(--font-primary);font-size:1.15rem;line-height:1.1;color:#263143;margin:2px 0 0}
   .output-desc{font-family:var(--font-primary);font-size:.95rem;line-height:1.3;color:#60708d;margin:4px 0 0}
   .output-copy{font-family:var(--font-primary);font-size:1rem;line-height:1.42;color:#263143;margin:0 0 12px}
   .output-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
@@ -1508,7 +1509,7 @@ function finish(){
       <div class="output-pane active" id="outputResult">
         <div class="output-peek">
           <div class="output-score">${aiScore.score}</div>
-          <div><div class="output-label">${displayTaxonomy(aiScore.label)}</div><h2 class="output-title">${title}</h2><p class="output-desc">${aiScore.description}</p></div>
+          <div><h2 class="output-title">${displayTaxonomy(aiScore.label)}</h2><div class="output-fam">${title}</div><p class="output-desc">${aiScore.description}</p></div>
         </div>
         <p class="output-copy">${body}</p>
         <p><button class="text-link" type="button" onclick="openLead()">Your coordinates</button></p>
