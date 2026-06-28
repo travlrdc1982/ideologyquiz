@@ -1,13 +1,10 @@
-scenario,expected,actual,pass,score,x,y,center_score,cardinal_alignment,cardinal_curved,cardinal_x,cardinal_y,nihil_gate,dominant,dominant_name
-Neutral middle,Quiet Middle,Quiet Middle,true,29,0.0000,0.0000,1.0000,0.0000,0.2872,0.0000,0.0000,1.00,CI,Communitarian Individualism
-Synthesized core,Synthesized Core,Synthesized Core,true,100,0.0000,0.0000,1.0000,1.0000,1.0000,0.0000,0.0000,1.00,CI,Communitarian Individualism
-"Weak cardinals, centered slider",Quiet Middle,Quiet Middle,true,4,0.0000,0.0000,1.0000,-0.6667,0.0397,0.0000,0.0000,1.00,CI,Communitarian Individualism
-Mild cardinal center,Quiet Middle,Quiet Middle,true,48,0.0000,0.0000,1.0000,0.3333,0.4820,0.0000,0.0000,1.00,CI,Communitarian Individualism
-Moderate cardinal center,Synthesized Core,Synthesized Core,true,72,0.0000,0.0000,1.0000,0.6667,0.7202,0.0000,0.0000,1.00,CI,Communitarian Individualism
-Local Liberty,Local Liberty,Local Liberty,true,47,-0.3917,-0.4750,0.5647,0.5833,0.6567,-0.3333,-0.5000,1.00,CI,Communitarian Individualism
-Constitutional Liberty,Constitutional Liberty,Constitutional Liberty,true,47,-0.3917,0.4750,0.5647,0.5833,0.6567,-0.3333,0.5000,1.00,CI,Communitarian Individualism
-Civic Equality,Civic Equality,Civic Equality,true,41,0.4750,0.4750,0.5250,0.5000,0.5958,0.5000,0.5000,1.00,ME,Moral Equality
-Democratic Equality,Democratic Equality,Democratic Equality,true,41,0.4750,-0.4750,0.5250,0.5000,0.5958,0.5000,-0.5000,1.00,ME,Moral Equality
-"CI high, ME low, RP slider",Fragmented Constitutional Liberty,Fragmented Constitutional Liberty,true,24,-0.4167,0.4500,0.5663,0.0833,0.3317,-0.8333,0.0000,1.00,CI,Communitarian Individualism
-"ME high, CI low, RP slider",Fragmented Civic Equality,Fragmented Civic Equality,true,24,0.4167,0.4500,0.5663,0.0833,0.3317,0.8333,0.0000,1.00,ME,Moral Equality
-High nihil center,Ideological Void,Ideological Void,true,0,0.0000,0.0000,1.0000,0.6667,0.7202,0.0000,0.0000,0.00,CI,Communitarian Individualism
+scenario,D,score,label,title,family,pulledToward,dominant
+"Ideal 7,7,7,7 middle",0,100,AMERICAN IDEOLOGUE,The Synthesized Core,Civic Equality,(balanced),Communitarian Individualism
+"6,6,6,6 middle",0.136,94,AMERICAN IDEOLOGUE,The Synthesized Core,Civic Equality,(balanced),Communitarian Individualism
+"5,5,5,5 middle",0.272,84,AMERICAN PATRIOT,Civic Equality,Civic Equality,(balanced),Communitarian Individualism
+"4,4,4,4 middle",0.408,71,AMERICAN PATRIOT,Civic Equality,Civic Equality,(balanced),Communitarian Individualism
+"Under-hold ME 7,1,7,7",0.408,71,AMERICAN PATRIOT,Constitutional Liberty,Constitutional Liberty,Liberty,Communitarian Individualism
+"Liberty slider, full cardinals",0.408,71,AMERICAN PATRIOT,Constitutional Liberty,Constitutional Liberty,Liberty,Communitarian Individualism
+Equality lean,0.358,76,AMERICAN PATRIOT,Civic Equality,Civic Equality,Equality,Moral Equality
+"Hollow & extreme 2,2,2,2 + lean",0.776,30,DETACHED REJECTOR,Local Liberty,Local Liberty,Liberty,Communitarian Individualism
+High nihilism (abyss),0.136,0,ALIENATED,The Center Void,Civic Equality,(balanced),Communitarian Individualism

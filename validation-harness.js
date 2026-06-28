@@ -1,111 +1,70 @@
+// Validation harness for the distance-from-ideal model.
+// score = closeness to the all-7 ideal; radius (distance from center) = the score deficit;
+// direction = which tensional value pulls you off equilibrium. Nihilism = abyss gate only.
 const fs = require("fs");
 const path = require("path");
 
-const CARD_NAMES = {
-  CI: "Communitarian Individualism",
-  ME: "Moral Equality",
-  RP: "Republicanism",
-  FE: "Federalism",
-};
+const CARD_NAMES = { CI: "Communitarian Individualism", ME: "Moral Equality", RP: "Republicanism", FE: "Federalism" };
+const clamp01 = v => Math.max(0, Math.min(1, v));
+
+function model(input) {
+  const { sliderX: X, sliderY: Y, CI, ME, RP, FE, nihil } = input;
+  const cardinalX = (ME - CI) / 6, cardinalY = (RP - FE) / 6;
+  const dCI = (7 - CI) / 6, dME = (7 - ME) / 6, dRP = (7 - RP) / 6, dFE = (7 - FE) / 6;
+  const D = Math.min(1, Math.sqrt((dCI * dCI + dME * dME + dRP * dRP + dFE * dFE + X * X + Y * Y) / 6));
+  const Lx = X + cardinalX, Ly = Y + cardinalY;
+  const rejectsFrame = nihil >= 6;
+  const score = rejectsFrame ? 0 : Math.round(100 * clamp01(1 - Math.pow(D, 1.4)));
+  const label = rejectsFrame ? "ALIENATED"
+    : score >= 85 ? "AMERICAN IDEOLOGUE"
+    : score >= 70 ? "AMERICAN PATRIOT"
+    : score >= 50 ? "AMERICAN SKEPTIC"
+    : "DETACHED REJECTOR";
+  const xKey = Lx < 0 ? "CI" : "ME", yKey = Ly >= 0 ? "RP" : "FE";
+  const T = { CI_RP: "Constitutional Liberty", CI_FE: "Local Liberty", ME_RP: "Civic Equality", ME_FE: "Democratic Equality" };
+  const family = T[`${xKey}_${yKey}`];
+  const title = rejectsFrame ? "The Center Void" : D < 0.22 ? "The Synthesized Core" : family;
+  const lean = Math.hypot(Lx, Ly) < 0.1 ? "(balanced)" : Math.abs(Lx) >= Math.abs(Ly) ? (Lx < 0 ? "Liberty" : "Equality") : (Ly > 0 ? "National" : "Democratic");
+  const dominant = ["CI", "ME", "RP", "FE"].sort((a, b) => ({ CI, ME, RP, FE }[b]) - ({ CI, ME, RP, FE }[a]))[0];
+  return { D: +D.toFixed(3), score, label, title, family, pulledToward: lean, dominant: CARD_NAMES[dominant] };
+}
 
 const scenarios = [
-  { scenario: "Neutral middle", sliderX: 0, sliderY: 0, CI: 4, ME: 4, RP: 4, FE: 4, nihil: 4, expect: "Quiet Middle" },
-  { scenario: "Synthesized core", sliderX: 0, sliderY: 0, CI: 7, ME: 7, RP: 7, FE: 7, nihil: 2, expect: "Synthesized Core" },
-  { scenario: "Weak cardinals, centered slider", sliderX: 0, sliderY: 0, CI: 2, ME: 2, RP: 2, FE: 2, nihil: 3, expect: "Quiet Middle" },
-  { scenario: "Mild cardinal center", sliderX: 0, sliderY: 0, CI: 5, ME: 5, RP: 5, FE: 5, nihil: 3, expect: "Quiet Middle" },
-  { scenario: "Moderate cardinal center", sliderX: 0, sliderY: 0, CI: 6, ME: 6, RP: 6, FE: 6, nihil: 2, expect: "Synthesized Core" },
-  { scenario: "Local Liberty", sliderX: -0.45, sliderY: -0.45, CI: 7, ME: 5, RP: 4, FE: 7, nihil: 2, expect: "Local Liberty" },
-  { scenario: "Constitutional Liberty", sliderX: -0.45, sliderY: 0.45, CI: 7, ME: 5, RP: 7, FE: 4, nihil: 2, expect: "Constitutional Liberty" },
-  { scenario: "Civic Equality", sliderX: 0.45, sliderY: 0.45, CI: 4, ME: 7, RP: 7, FE: 4, nihil: 2, expect: "Civic Equality" },
-  { scenario: "Democratic Equality", sliderX: 0.45, sliderY: -0.45, CI: 4, ME: 7, RP: 4, FE: 7, nihil: 2, expect: "Democratic Equality" },
-  { scenario: "CI high, ME low, RP slider", sliderX: 0, sliderY: 0.9, CI: 6.5, ME: 1.5, RP: 4.5, FE: 4.5, nihil: 2, expect: "Fragmented Constitutional Liberty" },
-  { scenario: "ME high, CI low, RP slider", sliderX: 0, sliderY: 0.9, CI: 1.5, ME: 6.5, RP: 4.5, FE: 4.5, nihil: 2, expect: "Fragmented Civic Equality" },
-  { scenario: "High nihil center", sliderX: 0, sliderY: 0, CI: 6, ME: 6, RP: 6, FE: 6, nihil: 6, expect: "Ideological Void" },
+  { s: "Ideal 7,7,7,7 middle", sliderX: 0, sliderY: 0, CI: 7, ME: 7, RP: 7, FE: 7, nihil: 2 },
+  { s: "6,6,6,6 middle", sliderX: 0, sliderY: 0, CI: 6, ME: 6, RP: 6, FE: 6, nihil: 2 },
+  { s: "5,5,5,5 middle", sliderX: 0, sliderY: 0, CI: 5, ME: 5, RP: 5, FE: 5, nihil: 2 },
+  { s: "4,4,4,4 middle", sliderX: 0, sliderY: 0, CI: 4, ME: 4, RP: 4, FE: 4, nihil: 2 },
+  { s: "Under-hold ME 7,1,7,7", sliderX: 0, sliderY: 0, CI: 7, ME: 1, RP: 7, FE: 7, nihil: 2 },
+  { s: "Liberty slider, full cardinals", sliderX: -1, sliderY: 0, CI: 7, ME: 7, RP: 7, FE: 7, nihil: 2 },
+  { s: "Equality lean", sliderX: 0.45, sliderY: 0.2, CI: 4, ME: 7, RP: 6, FE: 4, nihil: 2 },
+  { s: "Hollow & extreme 2,2,2,2 + lean", sliderX: -0.6, sliderY: -0.6, CI: 3, ME: 1, RP: 1, FE: 3, nihil: 3 },
+  { s: "High nihilism (abyss)", sliderX: 0, sliderY: 0, CI: 6, ME: 6, RP: 6, FE: 6, nihil: 6 },
 ];
 
-function clamp01(v) {
-  return Math.max(0, Math.min(1, v));
-}
+const rows = scenarios.map(sc => ({ scenario: sc.s, ...model(sc) }));
+console.table(rows.map(r => ({ scenario: r.scenario, D: r.D, score: r.score, label: r.label.replace("AMERICAN ", "").replace("DETACHED ", ""), title: r.title.replace("The ", ""), pulled: r.pulledToward })));
 
-function mean(values) {
-  return values.reduce((sum, value) => sum + value, 0) / values.length;
-}
-
-function typology(s) {
-  const xKey = s.adjX < 0 ? "CI" : "ME";
-  const yKey = s.adjY >= 0 ? "RP" : "FE";
-  const types = {
-    CI_RP: { name: "Constitutional Liberty", extreme: "Managerial Liberty" },
-    CI_FE: { name: "Local Liberty", extreme: "Populist Liberty" },
-    ME_RP: { name: "Civic Equality", extreme: "State Equality" },
-    ME_FE: { name: "Democratic Equality", extreme: "Communal Equality" },
-  };
-  const base = types[`${xKey}_${yKey}`] || types.ME_RP;
-  const fragmented = s.cardinalCurved < 0.42 || s.centerScore < 0.45;
-  const extreme = s.rnorm > 0.55;
-  return {
-    ...base,
-    label: extreme ? base.extreme : fragmented ? `Fragmented ${base.name}` : base.name,
-  };
-}
-
-function scoreScenario(input) {
-  const cardScore = { CI: input.CI, ME: input.ME, RP: input.RP, FE: input.FE };
-  const cardinalZ = Object.fromEntries(Object.entries(cardScore).map(([key, value]) => [key, (value - 4) / 3]));
-  const cardinalAlignment = mean(Object.values(cardinalZ));
-  const cardinalLinear = clamp01((cardinalAlignment + 1) / 2);
-  const cardinalCurved = Math.pow(cardinalLinear, 1.8);
-  const cardinalX = (input.ME - input.CI) / 6;
-  const cardinalY = (input.RP - input.FE) / 6;
-  const adjX = (input.sliderX + cardinalX) / 2;
-  const adjY = (input.sliderY + cardinalY) / 2;
-  const rnorm = Math.min(Math.hypot(adjX, adjY) / Math.SQRT2, 1);
-  const centerScore = 1 - rnorm;
-  const nihilGate = input.nihil >= 6 ? 0 : input.nihil >= 5 ? 0.35 : input.nihil >= 4.5 ? 0.65 : 1;
-  const aiScore = Math.round(100 * clamp01(cardinalCurved * (0.35 + 0.65 * centerScore) * nihilGate));
-  const dominant = Object.keys(cardScore).sort((a, b) => cardScore[b] - cardScore[a])[0];
-  const s = { ...input, cardScore, cardinalAlignment, cardinalLinear, cardinalCurved, cardinalX, cardinalY, adjX, adjY, rnorm, centerScore, nihilGate, aiScore, dominant };
-  const CENTRAL = rnorm < 0.30;
-  const WHOLE = cardinalCurved > 0.60;
-  const label = input.nihil >= 6 ? "Ideological Void" : CENTRAL && WHOLE ? "Synthesized Core" : CENTRAL ? "Quiet Middle" : typology(s).label;
-  return { ...s, label, dominantName: CARD_NAMES[dominant] };
-}
-
-const rows = scenarios.map((scenario) => {
-  const scored = scoreScenario(scenario);
-  const passed = scored.label === scenario.expect;
-  return {
-    scenario: scenario.scenario,
-    expected: scenario.expect,
-    actual: scored.label,
-    pass: passed,
-    score: scored.aiScore,
-    x: scored.adjX.toFixed(4),
-    y: scored.adjY.toFixed(4),
-    center_score: scored.centerScore.toFixed(4),
-    cardinal_alignment: scored.cardinalAlignment.toFixed(4),
-    cardinal_curved: scored.cardinalCurved.toFixed(4),
-    cardinal_x: scored.cardinalX.toFixed(4),
-    cardinal_y: scored.cardinalY.toFixed(4),
-    nihil_gate: scored.nihilGate.toFixed(2),
-    dominant: scored.dominant,
-    dominant_name: scored.dominantName,
-  };
-});
+// ---- invariants ----
+const m = o => model(o);
+const checks = [];
+const ck = (name, ok) => checks.push({ check: name, pass: ok });
+ck("ideal scores 100 + Synthesized Core", m(scenarios[0]).score === 100 && m(scenarios[0]).title === "The Synthesized Core");
+ck("5,5,5,5 scores higher than 4,4,4,4", m(scenarios[2]).score > m(scenarios[3]).score);
+ck("under-holding ME pulls toward Liberty", m(scenarios[4]).pulledToward === "Liberty");
+ck("high nihilism -> ALIENATED / Void", m(scenarios[8]).label === "ALIENATED" && m(scenarios[8]).title === "The Center Void");
+// monotonic: score strictly decreases as D increases (radius == score deficit)
+const grid = [];
+for (let d = 0; d <= 1.0001; d += 0.1) grid.push({ sliderX: 0, sliderY: 0, CI: 7 - d * 6, ME: 7 - d * 6, RP: 7 - d * 6, FE: 7 - d * 6, nihil: 2 });
+let mono = true;
+for (let i = 1; i < grid.length; i++) if (m(grid[i]).score > m(grid[i - 1]).score) mono = false;
+ck("score decreases monotonically as you leave center", mono);
+console.table(checks);
 
 const headers = Object.keys(rows[0]);
-const escapeCsv = (value) => {
-  const text = value == null ? "" : String(value);
-  return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
-};
-const csv = [headers.join(","), ...rows.map((row) => headers.map((header) => escapeCsv(row[header])).join(","))].join("\r\n");
-const output = path.join(process.cwd(), "validation-scenarios.csv");
-fs.writeFileSync(output, csv, "utf8");
+const esc = v => { const t = v == null ? "" : String(v); return /[",\n\r]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; };
+fs.writeFileSync(path.join(process.cwd(), "validation-scenarios.csv"),
+  [headers.join(","), ...rows.map(r => headers.map(h => esc(r[h])).join(","))].join("\r\n"), "utf8");
 
-console.table(rows.map(({ scenario, expected, actual, pass, score, x, y }) => ({ scenario, expected, actual, pass, score, x, y })));
-const failures = rows.filter((row) => !row.pass);
-if (failures.length) {
-  console.error(`Validation failed for ${failures.length} scenario(s). See ${output}`);
-  process.exit(1);
-}
-console.log(`Validation passed. Wrote ${output}`);
+const failed = checks.filter(c => !c.pass);
+if (failed.length) { console.error(`FAILED ${failed.length} invariant(s)`); process.exit(1); }
+console.log("All invariants pass.");
