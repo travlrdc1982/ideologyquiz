@@ -1103,8 +1103,7 @@ if(EMBEDDED){
 function show(panel, scroll=true){
   [intro,quiz,results].forEach(p=>p.classList.remove('active'));
   panel.classList.add('active');
-  if(scroll) window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
-  notifyParent('aiq:scrollTop');
+  if(scroll){ window.scrollTo({top:0,behavior:reduce?'auto':'smooth'}); notifyParent('aiq:scrollTop'); }
   reportHeight();
 }
 
