@@ -1394,7 +1394,17 @@ function finish(){
   const lib=Math.round((1-(markX+1)/2)*100), eq=100-lib;
   const nat=Math.round(((markY+1)/2)*100), dem=100-nat;
   const sortedCards=Object.keys(s.cardScore).sort((a,b)=>s.cardScore[b]-s.cardScore[a]);
+  const responseId='r_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,10);
+  // raw per-question responses, keyed to a stable question id (original QUESTIONS index) so the
+  // data survives the question shuffle and any future edits to question order.
+  const rawAnswers=activeQuestions.map((q,i)=>({
+    qid:QUESTIONS.indexOf(q), order:i, type:q.t,
+    axis:q.axis||null, cardinal:q.cardinal||null, rev:!!q.rev, value:answers[i]
+  }));
   latestResultPayload={
+    responseId,
+    quizVersion:1,
+    rawAnswers,
     score:aiScore.score,
     taxonomy:aiScore.label,
     taxonomyDescription:aiScore.description,
@@ -1426,6 +1436,9 @@ function finish(){
     adjustedRadius:Number(s.adjustedR.toFixed(3)),
     displayRadius:Number(displayPoint.r.toFixed(3))
   };
+  // Capture EVERY completion anonymously (no name/email) for analysis.
+  // If the visitor later submits the lead form, that record shares this responseId.
+  notifyParent('aiq:response',{payload:latestResultPayload});
   $('leadForm').reset();
   $('leadForm').classList.remove('sent');
   $('leadStatus').textContent='';
