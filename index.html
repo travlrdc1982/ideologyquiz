@@ -547,44 +547,44 @@ function displayTaxonomy(label){
 }
 const CARDINAL_CONTENT = {
   RP: {
-    kind:"Closest Cardinal Value",
+    kind:"Cardinal Value",
     title:"Republicanism",
-    body:"Republicanism--not the party, but the philosophical and institutional tradition--is the American belief in constitutional government, civic virtue, the rule of law, and liberty preserved through structure. It operationalizes the National Idea by demanding deliberation, compromise, and mutual respect--the moral conditions of shared governance. It is a delicate structure of liberty and limits, designed not to command virtue but to make space for it."
+    body:"Republicanism—not the party, but the philosophical and institutional tradition—is the American belief in constitutional government, civic virtue, the rule of law, and liberty preserved through structure. It operationalizes the National Idea by demanding deliberation, compromise, and mutual respect—the moral conditions of shared governance. It is a delicate structure of liberty and limits, designed not to command virtue but to make space for it. Republicanism assumes the citizen will be formed elsewhere—in family, church, and voluntary association—and channels that formation into collective self-rule."
   },
   FE: {
-    kind:"Closest Cardinal Value",
+    kind:"Cardinal Value",
     title:"Federalism",
-    body:"Federalism is more than a legal arrangement--it is a structural value rooted in pluralism, decentralization, and a distrust of concentrated power. It operationalizes the Democratic Idea by dispersing authority, protecting local self-rule, and making space for the plural communities in which American civic life is formed."
+    body:"Federalism is more than a legal arrangement—it is a structural value rooted in pluralism, decentralization, and a distrust of concentrated power. It operationalizes the Democratic Idea by dispersing authority, protecting local self-rule, and making space for the plural communities in which American civic life is formed. It reflects the commitment that government should reflect and remain close to the governed, and that legitimate authority is earned from the bottom up rather than imposed from above. Federalism institutionalizes the conviction that a large and diverse republic requires many centers of power, not one."
   },
   CI: {
-    kind:"Closest Cardinal Value",
+    kind:"Cardinal Value",
     title:"Communitarian Individualism",
-    body:"Communitarian individualism is the American expression of liberty--not as unbounded autonomy, but as liberty constrained by moral obligation, civic duty, and belonging. It describes a lived synthesis in which liberty is conditioned by moral equality, and equality is energized by personal responsibility. It is freedom lived in community--the cultural and moral precondition for the American Ideology itself."
+    body:"Communitarian individualism is the American expression of liberty—not as unbounded autonomy, but as liberty constrained by moral obligation, civic duty, and belonging. It describes a lived synthesis in which liberty is conditioned by moral equality, and equality is energized by personal responsibility. From Puritan towns to frontier settlements, Americans have acted on a cultural instinct that liberty is best lived through community, not apart from it. It is freedom lived in community—the cultural and moral precondition for the American Ideology itself."
   },
   ME: {
-    kind:"Closest Cardinal Value",
+    kind:"Cardinal Value",
     title:"Moral Equality",
-    body:"Moral equality is the American interpretation of equality, forged from two traditions: the Puritan conviction that every person bears the imago Dei and the Enlightenment claim that each person owns himself. In the American tradition, equality is not sameness but equal dignity, the moral worth of each person."
+    body:"Moral equality is the American interpretation of equality, forged from two traditions: the Puritan conviction that every person bears the imago Dei and the Enlightenment claim that each person owns himself. Lincoln completed this synthesis by showing that dignity and autonomy are one and the same—that liberty matters because it secures equal worth, and equality matters because it dignifies liberty. In the American tradition, equality is not sameness but equal dignity, the moral worth of each person. It is the rejection of ascriptive class—the foundational insistence that no one is born to rule and no one to obey."
   }
 };
 const TENDENCY_CONTENT = {
   LIB: {
-    kind:"Closest Ideological Tendency",
+    kind:"Ideological Misalignment",
     title:"Libertarianism",
-    body:"Libertarianism is what liberty becomes when it is severed from equality and community. It treats freedom as the right to do whatever one pleases so long as it infringes on no one else's rights--a maximal autonomy that has never defined the American tradition in either theory or practice. Detached from moral obligation and civic duty, liberty devolves into privilege, license, or atomization. It is the shadow of liberty: real freedom mistaken for the absence of bonds."
+    body:"Libertarianism is what liberty becomes when it is severed from equality and community. It treats freedom as the right to do whatever one pleases so long as it infringes on no one else\u2019s rights—a maximal autonomy that has never defined the American tradition in either theory or practice. Detached from moral obligation and civic duty, liberty devolves into privilege, license, or atomization. It is the shadow of liberty: real freedom mistaken for the absence of bonds."
   },
   EQ: {
-    kind:"Closest Ideological Tendency",
+    kind:"Ideological Misalignment",
     title:"Equity",
     body:"Equity is what equality becomes when it is severed from liberty. Where the American tradition grounded equality in shared dignity, equity substitutes the equalization of outcomes and treats liberty as an instrument of oppression. It replaces moral equality with comparative victimhood, measuring injustice not by the violation of principle but by rank in a grievance hierarchy. It misses the point entirely: in the American tradition, liberty and equality were never ends to be managed, but principles to be held in tension so that each could ennoble the other."
   },
   AUTH: {
-    kind:"Closest Ideological Tendency",
+    kind:"Ideological Misalignment",
     title:"Authoritarianism",
     body:"Authoritarianism is what the National Idea becomes when it is detached from local legitimacy and democratic consent. It is centralization without counterweight--national coherence hardened into bureaucratic overreach, executive supremacy, or moral command from above. Whether it arrives through procedural force or populist acclamation, it treats the state as the source of virtue rather than the servant of free citizens. It is the distortion republicanism was designed to prevent: a structure that commands virtue rather than making space for it."
   },
   MAJ: {
-    kind:"Closest Ideological Tendency",
+    kind:"Ideological Misalignment",
     title:"Majoritarianism",
     body:"Majoritarianism is what the Democratic Idea becomes when it is unmoored from national purpose and constitutional restraint. It is popular sovereignty without limits--participation that slides into parochialism, factionalism, or the tyranny of the majority. The Federalists were obsessed with this danger, designing bicameralism, federalism, and judicial review precisely to channel democratic passion rather than silence it. Where the Democratic Idea honors the voice of the people, majoritarianism mistakes that voice for the whole of legitimate authority."
   }
@@ -1282,8 +1282,8 @@ function wireOutputTray(){
 }
 
 const focusCopy = {
-  philosophical:{kicker:"Dimension",title:"Philosophical Tension",related:["ci","me","liberty","equality"],body:"The philosophical tension is the American argument over how liberty and equality can be held together. Liberty without equality becomes license or privilege; equality without liberty becomes coercion or managed sameness. The American Ideology does not resolve this tension by choosing one side. It asks whether liberty and equality can discipline, ennoble, and limit one another."},
-  structural:{kicker:"Dimension",title:"Structural Tension",related:["rp","fe","national","democratic"],body:"The structural tension is the American argument over where legitimate authority lives. The National Idea gives the country coherence, institutions, and common purpose. The Democratic Idea keeps power answerable to the people, dispersed through states, local communities, and civic participation. The American Ideology depends on holding both: a nation strong enough to act, and a people free enough to govern themselves."},
+  philosophical:{kicker:"Dimension",title:"Philosophical Tension",related:["ci","me","liberty","equality"],body:"An ideology is defined as both a set of normative values and ideals (a political philosophy) and a blueprint for how to acheive those ideals (a political structure). The philosophical tension is the American argument over how liberty and equality can be held together. Liberty without equality becomes license or privilege; equality without liberty becomes coercion or managed sameness. The American Ideology does not resolve this tension by choosing one side. It asks whether liberty and equality can discipline, ennoble, and limit one another."},
+  structural:{kicker:"Dimension",title:"Structural Tension",related:["rp","fe","national","democratic"],body:"An ideology is defined as both a set of normative values and ideals (a political philosophy) and a blueprint for how to acheive those ideals (a political structure). The structural tension is the American argument over where legitimate authority lives. The National Idea gives the country coherence, institutions, and common purpose. The Democratic Idea keeps power answerable to the people, dispersed through states, local communities, and civic participation. The American Ideology depends on holding both: a nation strong enough to act, and a people free enough to govern themselves."},
   liberty:{kicker:"Tensional idea",title:"The Philosophical Axis: Liberty and Equality",related:["ci","liberty","libertarianism"],body:"At the heart of the American political ideology lies a dynamic tension between liberty and equality, two principles deeply enshrined in the founding documents and the very fabric of the nation's identity. Liberty, with its emphasis on individual freedom and personal autonomy, stands as a beacon of self-determination. Equality, on the other hand, underscores the collective commitment to ensuring that all individuals are treated with equal respect and granted equal opportunities. This interplay between the individual and the collective, the one and the many, forms the core tension that has driven American political and philosophical evolution, constantly challenging the nation to find a balance between these foundational ideals."},
   equality:{kicker:"Tensional idea",title:"The Philosophical Axis: Liberty and Equality",related:["me","equality","equity"],body:"At the heart of the American political ideology lies a dynamic tension between liberty and equality, two principles deeply enshrined in the founding documents and the very fabric of the nation's identity. Liberty, with its emphasis on individual freedom and personal autonomy, stands as a beacon of self-determination. Equality, on the other hand, underscores the collective commitment to ensuring that all individuals are treated with equal respect and granted equal opportunities. This interplay between the individual and the collective, the one and the many, forms the core tension that has driven American political and philosophical evolution, constantly challenging the nation to find a balance between these foundational ideals."},
   national:{kicker:"Tensional idea",title:"The Structural Axis: The Democratic and National Ideas",related:["rp","national","authoritarianism"],body:"Where the Declaration provides the philosophical blueprint of the American Ideology, the Constitution provides its structural form--establishing the means by which those moral ends are secured. This tension was first fully theorized by Herbert Croly in The Promise of American Life, which framed American political development as the ongoing interplay between the Democratic Idea--localism, participation, and popular sovereignty--and the National Idea--centralized authority, institutional coherence, and common purpose. Neither tradition is sufficient on its own; the American Ideology arises from the creative tension between them, a permanent dialectic that channels local energies into national purpose and national commitments into local practice."},
