@@ -96,6 +96,7 @@
   .cardinal-label{font-family:var(--font-primary);font-size:19px;font-weight:600;fill:#080806;paint-order:stroke;stroke:#f6df8b;stroke-width:.75px}
   .cardinal-label.small{font-size:17px}
   .tendency-label{font-family:var(--font-mono);font-size:12px;font-weight:400;letter-spacing:.045em;fill:#fffaf0}
+  .wedge-name{font-family:var(--font-primary);font-weight:600;font-size:15px;paint-order:stroke;stroke-width:3.4px;stroke-linejoin:round}
   .cardinal-copy-title{font-family:var(--font-primary);font-size:18px;font-weight:600;color:#041f3e;margin:0 0 4px}
   .cardinal-copy{font-family:var(--font-primary);font-size:11.5px;line-height:1.3;color:#263143;margin:0}
   .chart-note{font-family:var(--font-mono);font-size:8px;letter-spacing:.14em;color:#95192f;text-transform:uppercase;margin:0 0 4px}
@@ -257,12 +258,13 @@
   .map-focus.dimmed{opacity:.22}
   .map-focus.selected{filter:saturate(1.25)}
   .output-board.folded{display:none}
-  .output-context{border-top:1px solid #e1e1d8;background:#fbfbf9;padding:0 16px;max-height:0;overflow:hidden;opacity:0;transition:max-height .28s ease,opacity .2s ease,padding .2s ease}
-  .output-context.open{max-height:560px;opacity:1;padding:16px}
+  #outputLegend{position:relative}
+  .output-context{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.97);width:min(92%,440px);max-height:88%;display:flex;flex-direction:column;background:#fbfbf9;border:1px solid #d3d3c9;border-radius:10px;box-shadow:0 22px 60px rgba(4,31,62,.30);padding:16px;opacity:0;pointer-events:none;z-index:6;transition:opacity .2s ease,transform .2s ease}
+  .output-context.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
   .output-context-head{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #d8d8cf;background:#fff;border-radius:5px;padding:10px 12px;margin-bottom:12px}
   .output-context-title{font-family:var(--font-primary);font-size:1.2rem;line-height:1.05;color:#041f3e}
   .output-context-kicker{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#95192f;margin-bottom:3px}
-  .output-context-body{margin:0;color:#263143;max-height:330px;overflow:auto;padding-right:4px}
+  .output-context-body{margin:0;color:#263143;flex:1;min-height:0;overflow:auto;padding-right:4px}
   .output-context-close{width:32px;height:32px;border:1px solid #d7d7cf;background:#fff;color:#041f3e;border-radius:50%;padding:0;font:700 1rem var(--font-mono);cursor:pointer}
   .output-learn{width:100%;margin-top:14px;border:2px solid #041f3e;background:#fff3bf;color:#041f3e;border-radius:3px;padding:12px 14px;font:700 .72rem var(--font-mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
   .comparison-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
@@ -304,6 +306,14 @@
   #resultTray .void-dot:after{content:"";position:absolute;inset:13px;border-radius:50%;border:1px solid rgba(0,0,0,.55)}
   #resultTray .legend-return{display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#60708d;margin:0 0 8px}
   #resultTray .legend-return:before,#resultTray .legend-return:after{content:"";height:1px;background:#d8d8cf;flex:1}
+  @media (max-width:560px){
+    /* legend: drop the fixed side-label column; make it a full-width header so the
+       content (value boxes, idea pairs, arrows) gets the full width and stops breaking mid-word */
+    #resultTray .legend-band.dimension,#resultTray .void-band{grid-template-columns:1fr;gap:6px}
+    #resultTray .ideas-grid,#resultTray .cardinal-grid{grid-template-columns:1fr 1fr;gap:8px 10px}
+    #resultTray .ideas-grid>.legend-head,#resultTray .cardinal-grid>.legend-head{grid-column:1 / -1}
+    #resultTray .value-box{overflow-wrap:break-word}
+  }
   @media (max-width:680px){
     .result-drawer{width:100vw;height:min(78vh,680px)}
     .drawer-head{padding-top:22px}
@@ -817,6 +827,34 @@ function buildFoundationMap(withUser=false, user=null){
   // so the lit quadrant matches where the YOU dot actually sits.
   const innerWedge = {RP:'RP',AUTH:'RP',FE:'FE',MAJ:'FE',CI:'CI',LIB:'CI',ME:'ME',EQ:'ME'}[user?.dominant];
   const wedgeOpacity = id => withUser && innerWedge ? (id === innerWedge ? 1 : .15) : .3;
+  // in-wedge cardinal labels: light text on the lit (dark) wedge, dark text on the faint ones
+  const wedgeNameStyle = id => id===innerWedge ? 'fill="#fdfdfb" stroke="#0a1a2e"' : 'fill="#16161d" stroke="#fbfbf9"';
+  // cardinal value labels in the wedges — only on the user's result map, not the intro/quiz maps
+  const wedgeNames = withUser ? `<g class="wedge-name" text-anchor="middle" pointer-events="none">
+      <text x="360" y="250" ${wedgeNameStyle('RP')}>Republicanism</text>
+      <text x="452" y="365" ${wedgeNameStyle('ME')}>Moral Equality</text>
+      <text x="360" y="476" ${wedgeNameStyle('FE')}>Federalism</text>
+      <text x="252" y="354" ${wedgeNameStyle('CI')}>Communitarian</text>
+      <text x="252" y="373" ${wedgeNameStyle('CI')}>Individualism</text>
+    </g>` : '';
+  // ---- radial score ruler: 100 at center -> 0 at the rim, along the user's direction ----
+  let scoreRuler='';
+  if(withUser){
+    const Du=Math.hypot(user.x,user.y);
+    const dirx = Du>0.02 ? user.x/Du : 0;
+    const diry = Du>0.02 ? -user.y/Du : -1;          // default straight up if dead-center
+    const Rmax=305, p=n=>n.toFixed(1);
+    const radiusFor = sc => Math.pow(1-sc/100,1/1.4)*Rmax;   // px from center for a given score
+    const ex=360+dirx*Rmax, ey=360+diry*Rmax, perpx=-diry, perpy=dirx;
+    const ticks=[0,25,50,75,100].map(sc=>{
+      const r=radiusFor(sc), tx=360+dirx*r, ty=360+diry*r, lx=tx+perpx*14, ly=ty+perpy*14+4;
+      return `<circle cx="${p(tx)}" cy="${p(ty)}" r="2.6" fill="#16191e"/><text x="${p(lx)}" y="${p(ly)}">${sc}</text>`;
+    }).join('');
+    scoreRuler=`<g class="score-ruler" pointer-events="none" font-family="JetBrains Mono, Spline Sans Mono, SFMono-Regular, monospace" font-size="11" font-weight="600" fill="#16191e" text-anchor="middle" paint-order="stroke" stroke="#fbfbf9" stroke-width="3" stroke-linejoin="round">
+      <line x1="360" y1="360" x2="${p(ex)}" y2="${p(ey)}" stroke="#16191e" stroke-opacity=".45" stroke-width="1.5"/>
+      ${ticks}
+    </g>`;
+  }
   const activeColor = {
     RP:"#0081cc",
     FE:"#003858",
@@ -885,6 +923,7 @@ function buildFoundationMap(withUser=false, user=null){
       <text class="map-focus" data-focus="liberty" fill="#ff3737" x="92" y="360" text-anchor="middle" transform="rotate(-90 92 360)">LIBERTY</text>
       <text class="map-focus" data-focus="equality" fill="#740505" x="628" y="360" text-anchor="middle" transform="rotate(90 628 360)">EQUALITY</text>
     </g>
+    ${wedgeNames}
     <circle class="map-focus" data-focus="void" cx="360" cy="360" r="22" fill="url(#foundationAbyss)"/>
     <circle class="map-focus" data-focus="void" cx="360" cy="360" r="10" fill="none" stroke="#000" stroke-opacity=".55" stroke-width="1"/>
     <g id="foundationLegend" transform="translate(60 756)" style="display:none">
@@ -908,6 +947,7 @@ function buildFoundationMap(withUser=false, user=null){
         <text x="38" y="89" font-family="Fraunces, Georgia, serif" font-size="15" fill="#2c313a">Federalism</text>
       </g>
     </g>
+    ${scoreRuler}
     ${withUser ? (Math.hypot(user.x,user.y)<0.08 ? `<g id="userMarkTop" pointer-events="none" filter="url(#foundationUserGlow)">
       <circle cx="360" cy="360" r="34" fill="none" stroke="${activeColor}" stroke-width="3"/>
       <circle cx="360" cy="360" r="43" fill="none" stroke="#16191E" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="4 5"/>
@@ -1310,7 +1350,6 @@ function setOutputFocus(key){
     el.classList.toggle('selected',on);
     el.classList.toggle('dimmed',!on);
   });
-  document.querySelector('.output-board')?.classList.add('folded');
   const kicker=document.getElementById('outputContextKicker');
   if(!kicker) return;
   kicker.textContent=item.kicker;
@@ -1334,10 +1373,14 @@ function wireLegendFocus(){
     if(!root) return;
     root.onclick=event=>{
       const focusEl=event.target.closest?.('[data-focus]');
-      if(!focusEl || !root.contains(focusEl)) return;
-      event.preventDefault();
-      event.stopPropagation();
-      setOutputFocus(focusEl.dataset.focus);
+      if(focusEl && root.contains(focusEl)){
+        event.preventDefault();
+        event.stopPropagation();
+        setOutputFocus(focusEl.dataset.focus);
+        return;
+      }
+      // click outside the floating card (and not on a legend item) closes it
+      if(!event.target.closest?.('#outputContext')) clearOutputFocus();
     };
   });
   const close=document.getElementById('outputContextClose');
@@ -1525,7 +1568,6 @@ function finish(){
           </div>
         </div>
         <div class="output-context" id="outputContext" aria-live="polite">
-          <p class="legend-return">Legend hidden behind this card</p>
           <div class="output-context-head">
             <div>
               <div class="output-context-kicker" id="outputContextKicker">Map focus</div>
